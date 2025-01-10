@@ -1,108 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IPO Details</title>
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Basic styling */
-        .tabs {}
-        .tab-titles {
-            display: flex;
-            margin-bottom: 10px;
-            position: relative;
-        }
-        .tab {
-            padding: 10px;
-            cursor: pointer;
-            flex: 1;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
-        input[type="radio"] {
-            display: none;
-        }
-        .tab-content .content {
-            display: none;
-        }
-        #tab1:checked ~ .tab-titles ~ .tab-content #content1,
-        #tab2:checked ~ .tab-titles ~ .tab-content #content2 {
-            display: block;
-        }
+      /* Basic styling */
+      .tabs {
+      }
+
+      .tab-titles {
+        display: flex;
+        margin-bottom: 10px;
+        position: relative;
+      }
+
+      .tab {
+        padding: 10px;
+        cursor: pointer;
+        flex: 1;
+        text-align: center;
+        transition: background-color 0.3s;
+      }
+
+      /* Hide radio buttons */
+      input[type="radio"] {
+        display: none;
+      }
+
+      /* Tab content styling */
+      .tab-content .content {
+        display: none;
+      }
+
+      #tab1:checked ~ .tab-titles ~ .tab-content #content1,
+      #tab2:checked ~ .tab-titles ~ .tab-content #content2 {
+        display: block;
+      }
+
+      /* Border animation */
+      .tab-titles {
+        position: relative;
+        display: flex;
+        margin-bottom: 10px;
+      }
+
+      .tab-titles:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50%; /* Adjust to the number of tabs */
+        height: 2px;
+        background-color: #3498db;
+        transition: left 0.3s ease-in-out;
+      }
+
+      #tab1:checked ~ .tab-titles:before {
+        left: 0%;
+      }
+
+      #tab2:checked ~ .tab-titles:before {
+        left: 50%;
+      }
+
+      .shimmer-effect {
+        background: linear-gradient(
+          90deg,
+          #f0f0f0 25%,
+          #e0e0e0 50%,
+          #f0f0f0 75%
+        );
+        background-size: 400px 100%;
+        animation: shimmer 1.5s infinite;
+      }
     </style>
-</head>
-<body>
-    <div class="flex justify-center items-center absolute top-12 left-0 right-0">
-        <div class="rounded-md border mt-5 bg-white shadow-lg w-full max-w-4xl min-h-screen">
-            <div class="tabs px-5 py-3">
-                <input type="radio" id="tab1" name="tab" checked />
-                <input type="radio" id="tab2" name="tab" />
-                <div class="tab-titles">
-                    <label for="tab1" class="tab">Open & Upcoming</label>
-                    <label for="tab2" class="tab">Your Application</label>
+  </head>
+
+  <body>
+    <div class="block md:hidden bg-blue-600 sm:relative sm:h-[100px]">
+      <div class="flex justify-center items-center text-center">
+        <div class="w-screen">
+          <div class="mx-auto p-3 my-4 mb-20 rounded-md text-white font-bold">
+            <nav class="absolute top-2 w-full">
+              <div class="grid grid-cols-12 my-4">
+                <div class="col-span-2 flex justify-center items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="h-6 w-6"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
                 </div>
-                <div class="tab-content">
-                    <div class="content" id="content1">
-                        <h2 class="text-lg font-bold pt-4">Open IPO's</h2>
-                        <div class="mx-auto sm:px-6 lg:px-8">
-                            <ul id="companiesContainer" role="list" class="mt-6 grid grid-cols-1 gap-x-6 w-full gap-y-8 lg:grid-cols-3 xl:gap-x-8"></ul>
-                        </div>
-                    </div>
-                    <div class="content" id="content2">
-                        <h2 class="text-xl font-bold">Your Application</h2>
-                    </div>
+                <div
+                  class="col-span-8 flex justify-start items-center text-lg font-semibold"
+                >
+                  IPO's
                 </div>
-            </div>
+                <div class="col-span-2 flex justify-center items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="h-6 w-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </nav>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <div
+      class="flex justify-center items-center absolute top-12 left-0 right-0"
+    >
+      <div
+        class="rounded-md border mt-5 bg-white shadow-lg w-full max-w-4xl min-h-screen"
+      >
+        <div class="tabs px-5 py-3">
+          <input type="radio" id="tab1" name="tab" checked />
+          <input type="radio" id="tab2" name="tab" />
+
+          <div class="tab-titles">
+            <label for="tab1" class="tab">Open & Upcoming</label>
+            <label for="tab2" class="tab">Your Application</label>
+          </div>
+
+          <div class="tab-content">
+            <div class="bg-gray-100 h-2"></div>
+            <div class="content" id="content1">
+              <h2 class="text-lg font-bold pt-4">
+                Open IPO's
+                <span
+                  class="mx-2 inline-flex items-center rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-medium text-white"
+                  >9</span
+                >
+              </h2>
+              <div class="mx-auto sm:px-6 lg:px-8">
+                <div class="my-2" id="shimmer">
+                  <div
+                    class="bg-gray-50 rounded-md border border-gray-200 p-2 my-4"
+                  >
+                    <div class="grid grid-cols-12">
+                      <div class="col-span-2">
+                        <div
+                          class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                          style="width: 60px; height: 50px"
+                        ></div>
+                      </div>
+                      <div class="col-span-8">
+                        <div
+                          class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                          style="width: 100%; height: 10px"
+                        ></div>
+                        <div
+                          class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                          style="width: 50%; height: 10px"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="">
+                      <div
+                        class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                        style="width: 100%; height: 10px"
+                      ></div>
+                      <div
+                        class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                        style="width: 100%; height: 10px"
+                      ></div>
+                    </div>
+                    <div
+                      class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                      style="width: 100%; height: 60px"
+                    ></div>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-md border border-gray-200 p-2 my-4"
+                  >
+                    <div class="grid grid-cols-12">
+                      <div class="col-span-2">
+                        <div
+                          class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                          style="width: 60px; height: 50px"
+                        ></div>
+                      </div>
+                      <div class="col-span-8">
+                        <div
+                          class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                          style="width: 100%; height: 10px"
+                        ></div>
+                        <div
+                          class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                          style="width: 50%; height: 10px"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="">
+                      <div
+                        class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                        style="width: 100%; height: 10px"
+                      ></div>
+                      <div
+                        class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                        style="width: 100%; height: 10px"
+                      ></div>
+                    </div>
+                    <div
+                      class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                      style="width: 100%; height: 60px"
+                    ></div>
+                  </div>
+                  <div
+                    class="bg-gray-50 rounded-md border border-gray-200 p-2 my-4"
+                  >
+                    <div class="grid grid-cols-12">
+                      <div class="col-span-2">
+                        <div
+                          class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                          style="width: 60px; height: 50px"
+                        ></div>
+                      </div>
+                      <div class="col-span-8">
+                        <div
+                          class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                          style="width: 100%; height: 10px"
+                        ></div>
+                        <div
+                          class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                          style="width: 50%; height: 10px"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="">
+                      <div
+                        class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                        style="width: 100%; height: 10px"
+                      ></div>
+                      <div
+                        class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                        style="width: 100%; height: 10px"
+                      ></div>
+                    </div>
+                    <div
+                      class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                      style="width: 100%; height: 60px"
+                    ></div>
+                  </div>
+                </div>
+                <div class="mx-auto my-2" id="no-shimmer" style="display: none">
+                  <ul
+                    id="companiesContainer"
+                    role="list"
+                    class="mt-6 grid grid-cols-1 gap-x-6 w-full gap-y-8 lg:grid-cols-3 xl:gap-x-8"
+                  >
+                    <!-- Company cards will be populated here -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="content" id="content2">
+              <div id="dashboard" class="tab-content hidden">
+                <h2 class="text-xl font-bold">Dashboard Content</h2>
+                <p>
+                  This is the content for the Dashboard tab. Here you can
+                  display analytics, statistics, and other relevant information.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
-        const apiUrl = "https://ipo.gwcindia.in/v3/api-ipo-master.php"; // Update with your API URL
+      const apiUrl = "https://ipo.gwcindia.in/v3/api-ipo-master.php"; // Update with your API URL
 
-        function sendDataToNewPage(company) {
-            const queryParams = new URLSearchParams({
-                name: company.ipoName,
-                biddingStartDate: company.biddingStartDate,
-                biddingEndDate: company.biddingEndDate,
-                minPrice: company.minPrice.toString(),
-                maxPrice: company.maxPrice.toString(),
-                cutOffPrice: company.cutOffPrice,
-                lotSize: company.lotSize,
-                issueSize: company.issueSize,
-                registrar: company.registrar,
-                issueType: company.issueType,
-                subType: company.subType,
-                entryDate: company.entryDate,
-                entryTime: company.entryTime,
-            }).toString();
+      function sendDataToNewPage(company) {
+        const queryParams = new URLSearchParams({
+          name: company.ipoName,
+          biddingStartDate: company.biddingStartDate,
+          biddingEndDate: company.biddingEndDate,
+          minPrice: company.minPrice.toString(),
+          maxPrice: company.maxPrice.toString(),
+          cutOffPrice: company.cutOffPrice,
+          lotSize: company.lotSize,
+          issueSize: company.issueSize,
+          registrar: company.registrar,
+          issueType: company.issueType,
+          subType: company.subType,
+          entryDate: company.entryDate,
+          entryTime: company.entryTime,
+        }).toString();
 
-            window.location.href = `newipodetails.html?${queryParams}`;
-        }
+        window.location.href = `newipodetails.html?${queryParams}`;
+      }
 
-        function fetchCompanies() {
-            fetch(apiUrl)
-                .then((response) => response.json())
-                .then((data) => {
-                    if (Array.isArray(data.open)) {
-                        const companiesContainer = document.getElementById("companiesContainer");
-                        companiesContainer.innerHTML = ""; // Clear previous content
+      function fetchCompanies() {
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data); // Log the raw data to check its structure
 
-                        data.open.forEach((company) => {
-                            const companyDiv = document.createElement("li");
-                            companyDiv.classList.add("overflow-hidden", "rounded-xl", "border", "border-gray-200", "py-2", "clickable-div");
+            if (Array.isArray(data.open)) {
+              const companiesContainer =
+                document.getElementById("companiesContainer");
+              companiesContainer.innerHTML = ""; // Clear previous content
 
-                            // Attach the event listener to the companyDiv
-                            companyDiv.addEventListener("click", function () {
-                                sendDataToNewPage(company);
-                            });
+              data.open.forEach((company) => {
+                const companyDiv = document.createElement("li");
+                companyDiv.classList.add(
+                  "overflow-hidden",
+                  "rounded-xl",
+                  "border",
+                  "border-gray-200",
+                  "py-2",
+                  "clickable-div"
+                );
 
-                            companyDiv.innerHTML = `
+                // Attach the event listener to the companyDiv
+                companyDiv.addEventListener("click", function () {
+                  sendDataToNewPage(company);
+                });
+
+                companyDiv.innerHTML = `
                                 <div class="flex items-center gap-x-4 border-gray-900/5 py-2 px-3">
-                                    <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt ="${company.ipoName}" class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                                    <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="${
+                                      company.ipoName
+                                    }" class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
                                     <div>
-                                        <div class="text-sm/6 font-medium text-gray-900">${company.ipoName}</div>
+                                        <div class="text-sm/6 font-medium text-gray-900">${
+                                          company.ipoName
+                                        }</div>
                                         <span class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">MAINBOARD</span>
                                     </div>
                                 </div>
@@ -110,11 +358,17 @@
                                     <div class="flex justify-between gap-x-4 py-3">
                                         <div>
                                             <dt class="text-gray-500">Bidding Starts</dt>
-                                            <dd class="text-gray-700 font-bold"><time datetime="${company.biddingStartDate}">${new Date(company.biddingStartDate).toLocaleDateString()}</time></dd>
+                                            <dd class="text-gray-700 font-bold"><time datetime="${
+                                              company.biddingStartDate
+                                            }">${new Date(
+                  company.biddingStartDate
+                ).toLocaleDateString()}</time></dd>
                                         </div>
                                         <div>
                                             <dt class="text-gray-500 flex justify-end">Min Price</dt>
-                                            <dd class="text-gray-700 font-bold flex justify-end"><time datetime="${company.biddingEndDate}">${company.minPrice}</time></dd>
+                                            <dd class="text-gray-700 font-bold flex justify-end"><time datetime="${
+                                              company.biddingEndDate
+                                            }">${company.minPrice}</time></dd>
                                         </div>
                                     </div>
                                     <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">
@@ -123,37 +377,51 @@
                                             <div class="font-bold text-gray-900">Max Price</div>
                                         </dt>
                                         <dd class="flex items-start gap-x-2">
-                                            <div class="font-semibold text-green-600">${company.maxPrice}</div>
+                                            <div class="font-semibold text-green-600">${
+                                              company.maxPrice
+                                            }</div>
                                         </dd>
                                     </div>
                                 </dl>
                             `;
-                            companiesContainer.appendChild(companyDiv);
-                        });
-                    } else {
-                        console.error("The API response does not contain an array of companies.");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching companies:", error);
-                });
-        }
+                companiesContainer.appendChild(companyDiv);
+              });
+            } else {
+              console.error(
+                "The API response does not contain an array of companies."
+              );
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching companies:", error);
+          });
+      }
 
-        fetchCompanies();
+      fetchCompanies();
 
-        const clientInfoUrl = "https://ipo.gwcindia.in/v3/api-client-info.php?clientCode=GZ10219"; // API for client info
-        function fetchClientInfo() {
-            fetch(clientInfoUrl)
-                .then((response) => response.json())
-                .then((data) => {
-                    localStorage.setItem("clientInfo", JSON.stringify(data)); // Store the data in localStorage
-                    console.log("Client info stored in localStorage:", data);
-                })
-                .catch((error) => {
-                    console.error("Error fetching client info:", error);
-                });
-        }
-        fetchClientInfo();
+      const clientInfoUrl =
+        "https://ipo.gwcindia.in/v3/api-client-info.php?clientCode=GZ10219"; // API for client info
+      function fetchClientInfo() {
+        fetch(clientInfoUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            // Assuming the data is an object or array you want to store
+            localStorage.setItem("clientInfo", JSON.stringify(data)); // Store the data in localStorage
+            console.log("Client info stored in localStorage:", data);
+          })
+          .catch((error) => {
+            console.error("Error fetching client info:", error);
+          });
+      }
+      fetchClientInfo();
+      window.onload = function () {
+        setTimeout(() => {
+          // Hide shimmer section
+          document.getElementById("shimmer").style.display = "none";
+          // Show the content section (no-shimmer)
+          document.getElementById("no-shimmer").style.display = "block";
+        }, 2000); // Delay for 2 seconds
+      };
     </script>
-</body>
+  </body>
 </html>
