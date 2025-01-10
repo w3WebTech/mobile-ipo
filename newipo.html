@@ -310,47 +310,39 @@
           subType: company.subType,
           entryDate: company.entryDate,
           entryTime: company.entryTime,
+          isin:company.isin,
+          ipoSymbol:company.ipoSymbol
         }).toString();
 
         window.location.href = `newipodetails.html?${queryParams}`;
       }
 
-      function fetchCompanies() {
-        fetch(apiUrl)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data); // Log the raw data to check its structure
+     
+        function fetchCompanies() {
+            fetch(apiUrl)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data); // Log the raw data to check its structure
 
-            if (Array.isArray(data.open)) {
-              const companiesContainer =
-                document.getElementById("companiesContainer");
-              companiesContainer.innerHTML = ""; // Clear previous content
+                    // Handle Open and Upcoming IPOs
+                    const companiesContainer = document.getElementById("companiesContainer");
+                    companiesContainer.innerHTML = ""; // Clear previous content
 
-              data.open.forEach((company) => {
-                const companyDiv = document.createElement("li");
-                companyDiv.classList.add(
-                  "overflow-hidden",
-                  "rounded-xl",
-                  "border",
-                  "border-gray-200",
-                  "py-2",
-                  "clickable-div"
-                );
+                    if (Array.isArray(data.open)) {
+                        data.open.forEach((company) => {
+                            const companyDiv = document.createElement("li");
+                            companyDiv.classList.add("overflow-hidden", "rounded-xl", "border", "border-gray-200", "py-2", "clickable-div");
 
-                // Attach the event listener to the companyDiv
-                companyDiv.addEventListener("click", function () {
-                  sendDataToNewPage(company);
-                });
+                            // Attach the event listener to the companyDiv
+                            companyDiv.addEventListener("click", function () {
+                                sendDataToNewPage(company);
+                            });
 
-                companyDiv.innerHTML = `
+                            companyDiv.innerHTML = `
                                 <div class="flex items-center gap-x-4 border-gray-900/5 py-2 px-3">
-                                    <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="${
-                                      company.ipoName
-                                    }" class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                                    <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="${company.ipoName}" class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
                                     <div>
-                                        <div class="text-sm/6 font-medium text-gray-900">${
-                                          company.ipoName
-                                        }</div>
+                                        <div class="text-sm/6 font-medium text-gray-900">${company.ipoName}</div>
                                         <span class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">MAINBOARD</span>
                                     </div>
                                 </div>
@@ -358,17 +350,11 @@
                                     <div class="flex justify-between gap-x-4 py-3">
                                         <div>
                                             <dt class="text-gray-500">Bidding Starts</dt>
-                                            <dd class="text-gray-700 font-bold"><time datetime="${
-                                              company.biddingStartDate
-                                            }">${new Date(
-                  company.biddingStartDate
-                ).toLocaleDateString()}</time></dd>
+                                            <dd class="text-gray-700 font-bold"><time datetime="${company.biddingStartDate}">${new Date(company.biddingStartDate).toLocaleDateString()}</time></dd>
                                         </div>
                                         <div>
                                             <dt class="text-gray-500 flex justify-end">Min Price</dt>
-                                            <dd class="text-gray-700 font-bold flex justify-end"><time datetime="${
-                                              company.biddingEndDate
-                                            }">${company.minPrice}</time></dd>
+                                            <dd class="text-gray-700 font-bold flex justify-end"><time datetime="${company.biddingEndDate}">${company.minPrice}</time></dd>
                                         </div>
                                     </div>
                                     <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">
@@ -377,27 +363,70 @@
                                             <div class="font-bold text-gray-900">Max Price</div>
                                         </dt>
                                         <dd class="flex items-start gap-x-2">
-                                            <div class="font-semibold text-green-600">${
-                                              company.maxPrice
-                                            }</div>
+                                            <div class="font-semibold text-green-600">${company.maxPrice}</div>
                                         </dd>
                                     </div>
                                 </dl>
                             `;
-                companiesContainer.appendChild(companyDiv);
-              });
-            } else {
-              console.error(
-                "The API response does not contain an array of companies."
-              );
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching companies:", error);
-          });
-      }
+                            companiesContainer.appendChild(companyDiv);
+                        });
+                    } else {
+                        console.error("The API response does not contain an array of open companies.");
+                    }
 
-      fetchCompanies();
+                    // Handle Upcoming IPOs
+                    if (Array.isArray(data.upcoming)) {
+                        data.upcoming.forEach((company) => {
+                            const companyDiv = document.createElement("li");
+                            companyDiv.classList.add("overflow-hidden", "rounded-xl", "border", "border-gray-200", "py-2", "clickable-div");
+
+                            // Attach the event listener to the companyDiv
+                            companyDiv.addEventListener("click", function () {
+                                sendDataToNewPage(company);
+                            });
+
+                            companyDiv.innerHTML = `
+                                <div class="flex items-center gap-x-4 border-gray-900/5 py-2 px-3">
+                                    <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="${company.ipoName}" class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                                    <div>
+                                        <div class="text-sm/6 font-medium text-gray-900">${company.ipoName}</div>
+                                        <span class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">UPCOMING</span>
+                                    </div>
+                                </div>
+                                <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
+                                    <div class="flex justify-between gap-x-4 py-3">
+                                        <div>
+                                            <dt class="text-gray-500">Bidding Starts</dt>
+                                            <dd class="text-gray-700 font-bold"><time datetime="${company.biddingStartDate}">${new Date(company.biddingStartDate).toLocaleDateString()}</time></dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-gray-500 flex justify-end">Min Price</dt>
+                                            <dd class="text-gray-700 font-bold flex justify-end"><time datetime="${company.biddingEndDate}">${company.minPrice}</time></dd>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">
+                                        <dt class="text-gray-500"><span class="inline-flex items-center rounded-md bg-white px-1.5 py-0.5 text-xs font-medium text-gray-600">Issue Size</span></dt>
+                                        <dt>
+                                            <div class="font-bold text-gray-900">Max Price</div>
+                                        </dt>
+                                        <dd class="flex items-start gap-x-2">
+                                            <div class="font-semibold text-green-600">${company.maxPrice}</div>
+                                        </dd>
+                                    </div>
+                                </dl>
+                            `;
+                            companiesContainer.appendChild(companyDiv);
+                        });
+                    } else {
+                        console.error("The API response does not contain an array of upcoming companies.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching companies:", error);
+                });
+        }
+
+        fetchCompanies();
 
       const clientInfoUrl =
         "https://ipo.gwcindia.in/v3/api-client-info.php?clientCode=GZ10219"; // API for client info

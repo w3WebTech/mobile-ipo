@@ -588,6 +588,8 @@
           objectOfIssue: params.get("objectOfIssue"),
           shareholdingPatterns: JSON.parse(params.get("shareholdingPatterns")),
           importantDates: JSON.parse(params.get("importantDates")),
+          isin: params.get("isin"),
+          ipoSymbol: params.get("ipoSymbol"),
         };
       }
       function displayIpoDetails() {
@@ -676,7 +678,8 @@
             .map(
                 (date) => `
                 <li class="py-2">${date}</li>
-            `
+                
+                `
             )
             .join("");
     } else {
@@ -710,6 +713,8 @@ document.getElementById("applyNowButton").addEventListener("click", function () 
             objectOfIssue: ipoDetails.objectOfIssue,
             shareholdingPatterns: JSON.stringify(ipoDetails.shareholdingPatterns),
             importantDates: JSON.stringify(ipoDetails.importantDates),
+            isin:JSON.stringify(ipoDetails.isin),
+            ipoSymbol:JSON.stringify(ipoDetails.ipoSymbol),
         });
 
         // Redirect to applyNow.html with parameters
