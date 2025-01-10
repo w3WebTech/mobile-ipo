@@ -713,8 +713,8 @@ document.getElementById("applyNowButton").addEventListener("click", function () 
             objectOfIssue: ipoDetails.objectOfIssue,
             shareholdingPatterns: JSON.stringify(ipoDetails.shareholdingPatterns),
             importantDates: JSON.stringify(ipoDetails.importantDates),
-            isin:JSON.stringify(ipoDetails.isin),
-            ipoSymbol:JSON.stringify(ipoDetails.ipoSymbol),
+            isin:ipoDetails.isin,
+            ipoSymbol:ipoDetails.ipoSymbol,
         });
 
         // Redirect to applyNow.html with parameters
