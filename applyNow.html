@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .min-h-screen {
+        min-height: calc(
+          100vh - 4rem
+        ); /* Adjust based on the height of your button */
+      }
+      body {
+        margin: 0;
+      }
+      /* Button fixed to bottom */
+      .fixed-bottom-button {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 50; /* Ensure it's above all other content */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="overflow-hidden min-h-screen">
+      <!-- Header Section -->
+      <div
+        class="block md:hidden bg-blue-600 sm:relative sm:h-[80px] overflow-hidden"
+      >
+        <div class="flex justify-center items-center text-center">
+          <div class="w-screen">
+            <div class="mx-auto p-3 my-4 mb-20 rounded-md text-white font-bold">
+              <nav class="absolute top-2 w-full">
+                <div class="grid grid-cols-12 my-4">
+                  <div
+                    class="col-span-2 flex justify-center items-center clickable-div"
+                    data-target="newipodetails.html"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="h-6 w-6"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div
+                    class="col-span-8 flex justify-start items-center text-lg font-semibold"
+                    id="ipoTitle"
+                  >
+                    IPO's
+                  </div>
+                  <div class="col-span-2 flex justify-center items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      class="h-6 w-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div
+        class="flex justify-center items-center absolute top-12 left-0 right-0 overflow-hidden"
+      >
+        <div class="rounded-md border mt-5 bg-white shadow-lg w-full max-w-4xl">
+          <!-- IPO Information -->
+          <div>
+            <div class="flex justify-between py-6 px-3 font-bold text-xl">
+              <div class="flex justify-between">
+                <div>
+                  <div class="px-5" id="companyName">Ventive Hospitality</div>
+                  <div class="text-gray-500 text-sm px-5" id="priceRange">
+                    ₹ 610.00 - ₹ 643.00
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-gray-100 h-2"></div>
+            <div class="px-4 py-2">
+              <div class="flex items-center gap-x-2 border-gray-900/5">
+                <div>Investor Type</div>
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="mt-1 h-6 w-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="px-3 flex gap-x-2 text-sm">
+                <span
+                  id="retailButton"
+                  class="my-2 inline-flex items-center rounded-md bg-white px-1.5 py-2 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 cursor-pointer"
+                  >Retail</span
+                >
+                <span
+                  id="hniButton"
+                  class="my-2 inline-flex items-center rounded-md bg-white px-1.5 py-2 text-xs font-medium text-black-700 ring-1 ring-inset ring-gray-400/10 cursor-pointer"
+                  >HNI</span
+                >
+                <span
+                  id="employeeButton"
+                  class="my-2 inline-flex items-center rounded-md bg-white px-1.5 py-2 text-xs font-medium text-black-700 ring-1 ring-inset ring-gray-400/10 cursor-pointer"
+                  >Employee</span
+                >
+              </div>
+            </div>
+            <div class="flex justify-between px-4 py-2">
+              <div>Number of lots</div>
+              <div>Maximum No of lots : <span id="lotSize">13</span></div>
+            </div>
+            <div class="px-4">
+              <div class="grid grid-cols-12 gap-x-4">
+                <div class="col-span-3">
+                  <div
+                    class="p-4 rounded-md border border-gray-900/5 flex justify-center bg-gray-100"
+                  >
+                    <button id="decrement" class="text-xl focus:outline-none">
+                      -
+                    </button>
+                  </div>
+                </div>
+                <div class="col-span-6">
+                  <div
+                    class="p-4 rounded-md border border-gray-900/5 flex justify-center"
+                  >
+                    <span id="lotCount">0</span>
+                  </div>
+                </div>
+                <div class="col-span-3">
+                  <div
+                    class="p-4 rounded-md border border-gray-900/5 flex justify-center bg-gray-100"
+                  >
+                    <button id="increment" class="text-xl focus:outline-none">
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="px-4">
+              <div>Bid price</div>
+              <input
+                type="number"
+                id="bidPrice"
+                class="p-4 my-3 rounded-md border border-gray-900/5 w-full focus:outline-purple-500"
+              />
+            </div>
+            <div
+              class="flex justify-between px-4 py-5 bg-gray-100 m-4 rounded-md"
+            >
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="blue"
+                  class="h-6 w-6"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.671-1.34l.041-.022ZM12 9a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div>Switch to HNI to buy more lots</div>
+              <div class="font-bold text-lg text-blue-600 pb-2">MODIFY</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fixed Bottom Button -->
+      <div class="fixed-bottom-button">
+        <button
+          type="button"
+          class="rounded-md bg-blue-800 py-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none mx-4 w-[90%]"
+          id="applyButton"
+        >
+          Apply For IPO
+        </button>
+      </div>
+    </div>
+    <script>
+       const clickableDivs = document.querySelectorAll(".clickable-div");
+      clickableDivs.forEach((div) => {
+        div.addEventListener("click", function () {
+          const targetPage = this.getAttribute("data-target");
+          window.location.href = targetPage;
+        });
+      });
+      // Extract query parameters from the URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const companyName = urlParams.get("name") || "Sobha Limited";
+      const minimumInvestment = urlParams.get("minimumInvestment") || 825.5;
+      const maximumInvestment = urlParams.get("maximumInvestment") || 825.5;
+      const bidPrice = urlParams.get("bidPriceMin") || 825.5;
+      const lotSize = urlParams.get("lotSize") || 1;
+      const issueSize = urlParams.get("issueSize") || 12107981;
+      const offerType = urlParams.get("offerType") || "CALL MONEY";
+      const ipoType = urlParams.get("ipoType") || "RIGHTS";
+
+      // Update content based on the query parameters
+      document.getElementById("lotSize").textContent = lotSize;
+      document.getElementById("companyName").textContent = companyName;
+      document.getElementById(
+        "priceRange"
+      ).textContent = `₹ ${minimumInvestment} - ₹ ${maximumInvestment}`;
+      document.getElementById("bidPrice").value = bidPrice;
+
+      const lotCountDisplay = document.getElementById("lotCount");
+      let lotCount = 0;
+
+      const incrementButton = document.getElementById("increment");
+      const decrementButton = document.getElementById("decrement");
+
+      incrementButton.addEventListener("click", () => {
+        if (lotCount < lotSize) {
+          lotCount++;
+          lotCountDisplay.textContent = lotCount;
+        }
+      });
+
+      decrementButton.addEventListener("click", () => {
+        if (lotCount > 0) {
+          lotCount--;
+          lotCountDisplay.textContent = lotCount;
+        }
+      });
+
+      const retailButton = document.getElementById("retailButton");
+      const hniButton = document.getElementById("hniButton");
+      const employeeButton = document.getElementById("employeeButton");
+
+      function resetButtons() {
+        retailButton.classList.remove(
+          "border-blue-700",
+          "text-blue-700",
+          "bg-blue-50"
+        );
+        retailButton.classList.add("bg-white", "text-blue-700");
+        hniButton.classList.remove(
+          "border-blue-700",
+          "text-blue-700",
+          "bg-blue-50"
+        );
+        hniButton.classList.add("bg-white", "text-black-700");
+        employeeButton.classList.remove(
+          "border-blue-700",
+          "text-blue-700",
+          "bg-blue-50"
+        );
+        employeeButton.classList.add("bg-white", "text-black-700");
+      }
+
+      retailButton.addEventListener("click", () => {
+        resetButtons();
+        retailButton.classList.add(
+          "border-blue-700",
+          "text-blue-700",
+          "bg-blue-50"
+        );
+      });
+
+      hniButton.addEventListener("click", () => {
+        resetButtons();
+        hniButton.classList.add(
+          "border-blue-700",
+          "text-blue-700",
+          "bg-blue-50"
+        );
+      });
+
+      employeeButton.addEventListener("click", () => {
+        resetButtons();
+        employeeButton.classList.add(
+          "border-blue-700",
+          "text-blue-700",
+          "bg-blue-50"
+        );
+      });
+
+      // Handle Apply for IPO button click
+      document.getElementById("applyButton").addEventListener("click", () => {
+        const clientCode = "GZ10219";
+        const isin = "INE0LRY01011";
+        const ipoSymbol = "QUADFUTURE";
+        const upiId = "8883234632@ybl";
+        const category = "IND";
+        const qty = lotCount; // Set quantity based on user selection
+        const price = document.getElementById("bidPrice").value || 290; // Set price from user input
+        const cutOff = true;
+
+        const formData = new FormData();
+        formData.append("clientCode", clientCode);
+        formData.append("isin", isin);
+        formData.append("ipoSymbol", ipoSymbol);
+        formData.append("upiId", upiId);
+        formData.append("category", category);
+        formData.append("qty", qty);
+        formData.append("price", price);
+        formData.append("cutOff", cutOff);
+
+        fetch("https://ipo.gwcindia.in/v3/api-apply-ipo.php", {
+          method: "POST",
+          headers: {
+            Cookie: "PHPSESSID=f84t4fg8ir4sa2eagd3pp1k3g7", // Replace with your session cookie if necessary
+          },
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert("IPO Application Success!");
+            console.log(data);
+          })
+          .catch((error) => {
+            alert("Error submitting application!");
+            console.error(error);
+          });
+      });
+    </script>
+  </body>
+</html>
