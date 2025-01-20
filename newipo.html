@@ -20,12 +20,33 @@
         position: relative;
       }
 
+      .tab-container {
+        position: relative; /* Position relative for the indicator */
+        display: flex; /* Align tabs in a row */
+      }
+
       .tab {
-        padding: 10px;
-        cursor: pointer;
-        flex: 1;
         text-align: center;
-        transition: background-color 0.3s;
+        cursor: pointer;
+        color: rgb(31, 87, 209);
+        padding: 15px;
+        transition: color 0.3s ease-in-out; /* Smooth color transition */
+      }
+
+      .active-tab {
+        border-bottom: 2px solid rgb(31, 87, 209);
+        transition: left 2s ease-in-out;
+        font-weight: bold;
+      }
+
+      .indicator {
+        position: absolute;
+        bottom: 0; /* Position it at the bottom of the tabs */
+        left: 0; /* Start at the left */
+        height: 2px; /* Height of the indicator */
+        width: 100px; /* Width of the indicator (adjust as needed) */
+        background-color: rgb(31, 87, 209); /* Color of the indicator */
+        transition: left 2s ease-in-out; /* Smooth left transition */
       }
 
       /* Hide radio buttons */
@@ -86,7 +107,7 @@
     <div class="block md:hidden bg-blue-600 sm:relative sm:h-[100px]">
       <div class="flex justify-center items-center text-center">
         <div class="w-screen">
-          <div class="mx-auto p-3 my-4 mb-20 rounded-md text-white font-bold">
+          <div class="mx-auto my-4 mb-20 rounded-md text-white font-bold">
             <nav class="absolute top-2 w-full">
               <div class="grid grid-cols-12 my-4">
                 <div class="col-span-2 flex justify-center items-center">
@@ -137,13 +158,13 @@
       <div
         class="rounded-md border mt-5 bg-white shadow-lg w-full max-w-4xl min-h-screen"
       >
-        <div class="tabs px-5 py-3">
+        <div class="tabs px-3 py-3">
           <input type="radio" id="tab1" name="tab" checked />
           <input type="radio" id="tab2" name="tab" />
 
           <div class="tab-titles">
             <label for="tab1" class="tab">Open & Upcoming</label>
-            <label for="tab2" class="tab">Your Application</label>
+            <label for="tab2" class="tab ml-8">Your Application</label>
           </div>
 
           <div class="tab-content">
@@ -279,12 +300,63 @@
               </div>
             </div>
             <div class="content" id="content2">
-              <div id="dashboard" class="tab-content hidden">
-                <h2 class="text-xl font-bold">Dashboard Content</h2>
-                <p>
-                  This is the content for the Dashboard tab. Here you can
-                  display analytics, statistics, and other relevant information.
-                </p>
+              <div id="dashboard" class="tab-content">
+                <div class="content" id="content2">
+                  <div class="content" id="content2">
+                    <h2 class="text-lg font-bold pt-4">Your Applications</h2>
+                    <div class="my-2" id="shimmerApplications">
+                      <div
+                        class="bg-gray-50 rounded-md border border-gray-200 p-2 my-4"
+                      >
+                        <div class="grid grid-cols-12">
+                          <div class="col-span-2">
+                            <div
+                              class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                              style="width: 60px; height: 50px"
+                            ></div>
+                          </div>
+                          <div class="col-span-8">
+                            <div
+                              class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                              style="width: 100%; height: 10px"
+                            ></div>
+                            <div
+                              class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                              style="width: 50%; height: 10px"
+                            ></div>
+                          </div>
+                        </div>
+                        <div class="">
+                          <div
+                            class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                            style="width: 100%; height: 10px"
+                          ></div>
+                          <div
+                            class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                            style="width: 100%; height: 10px"
+                          ></div>
+                        </div>
+                        <div
+                          class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                          style="width: 100%; height: 60px"
+                        ></div>
+                      </div>
+                    </div>
+                    <div
+                      class="mx-auto my-2"
+                      id="no-shimmerApplications"
+                      style="display: none"
+                    >
+                      <ul
+                        id="applicationsList"
+                        role="list"
+                        class="mt-6 grid grid-cols-1 gap-x-6 w-full gap-y-8 lg:grid-cols-3 xl:gap-x-8"
+                      >
+                        <!-- Applications will be populated here -->
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -294,55 +366,45 @@
 
     <script>
       const apiUrl = "https://ipo.gwcindia.in/v3/api-ipo-master.php"; // Update with your API URL
+      const applicationApiUrl =
+        "https://ipo.gwcindia.in/v3/api-client-applications.php?clientCode=GZ10219";
 
-      function sendDataToNewPage(company) {
-        const queryParams = new URLSearchParams({
-          name: company.ipoName,
-          biddingStartDate: company.biddingStartDate,
-          biddingEndDate: company.biddingEndDate,
-          minPrice: company.minPrice.toString(),
-          maxPrice: company.maxPrice.toString(),
-          cutOffPrice: company.cutOffPrice,
-          lotSize: company.lotSize,
-          issueSize: company.issueSize,
-          registrar: company.registrar,
-          issueType: company.issueType,
-          subType: company.subType,
-          entryDate: company.entryDate,
-          entryTime: company.entryTime,
-          isin:company.isin,
-          ipoSymbol:company.ipoSymbol
-        }).toString();
+      function fetchCompanies() {
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data); // Log the raw data to check its structure
 
-        window.location.href = `newipodetails.html?${queryParams}`;
-      }
+            // Handle Open and Upcoming IPOs
+            const companiesContainer =
+              document.getElementById("companiesContainer");
+            companiesContainer.innerHTML = ""; // Clear previous content
 
-     
-        function fetchCompanies() {
-            fetch(apiUrl)
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data); // Log the raw data to check its structure
+            if (Array.isArray(data.open)) {
+              data.open.forEach((company) => {
+                const companyDiv = document.createElement("li");
+                companyDiv.classList.add(
+                  "overflow-hidden",
+                  "rounded-xl",
+                  "border",
+                  "border-gray-200",
+                  "py-2",
+                  "clickable-div"
+                );
 
-                    // Handle Open and Upcoming IPOs
-                    const companiesContainer = document.getElementById("companiesContainer");
-                    companiesContainer.innerHTML = ""; // Clear previous content
+                companyDiv.addEventListener("click", function () {
+                  sendDataToNewPage(company, "newipodetails.html"); // URL for IPO details
+                });
 
-                    if (Array.isArray(data.open)) {
-                        data.open.forEach((company) => {
-                            const companyDiv = document.createElement("li");
-                            companyDiv.classList.add("overflow-hidden", "rounded-xl", "border", "border-gray-200", "py-2", "clickable-div");
-
-                            // Attach the event listener to the companyDiv
-                            companyDiv.addEventListener("click", function () {
-                                sendDataToNewPage(company);
-                            });
-
-                            companyDiv.innerHTML = `
+                companyDiv.innerHTML = `
                                 <div class="flex items-center gap-x-4 border-gray-900/5 py-2 px-3">
-                                    <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="${company.ipoName}" class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                                    <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="${
+                                      company.ipoName
+                                    }" class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
                                     <div>
-                                        <div class="text-sm/6 font-medium text-gray-900">${company.ipoName}</div>
+                                        <div class="text-sm/6 font-medium text-gray-900">${
+                                          company.ipoName
+                                        }</div>
                                         <span class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">MAINBOARD</span>
                                     </div>
                                 </div>
@@ -350,11 +412,17 @@
                                     <div class="flex justify-between gap-x-4 py-3">
                                         <div>
                                             <dt class="text-gray-500">Bidding Starts</dt>
-                                            <dd class="text-gray-700 font-bold"><time datetime="${company.biddingStartDate}">${new Date(company.biddingStartDate).toLocaleDateString()}</time></dd>
+                                            <dd class="text-gray-700 font-bold"><time datetime="${
+                                              company.biddingStartDate
+                                            }">${new Date(
+                  company.biddingStartDate
+                ).toLocaleDateString()}</time></dd>
                                         </div>
                                         <div>
                                             <dt class="text-gray-500 flex justify-end">Min Price</dt>
-                                            <dd class="text-gray-700 font-bold flex justify-end"><time datetime="${company.biddingEndDate}">${company.minPrice}</time></dd>
+                                            <dd class="text-gray-700 font-bold flex justify-end"><time datetime="${
+                                              company.biddingEndDate
+                                            }">${company.minPrice}</time></dd>
                                         </div>
                                     </div>
                                     <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">
@@ -363,33 +431,48 @@
                                             <div class="font-bold text-gray-900">Max Price</div>
                                         </dt>
                                         <dd class="flex items-start gap-x-2">
-                                            <div class="font-semibold text-green-600">${company.maxPrice}</div>
+                                            <div class="font-semibold text-green-600">${
+                                              company.maxPrice
+                                            }</div>
                                         </dd>
                                     </div>
                                 </dl>
                             `;
-                            companiesContainer.appendChild(companyDiv);
-                        });
-                    } else {
-                        console.error("The API response does not contain an array of open companies.");
-                    }
+                companiesContainer.appendChild(companyDiv);
+              });
+            } else {
+              console.error(
+                "The API response does not contain an array of open companies."
+              );
+            }
 
-                    // Handle Upcoming IPOs
-                    if (Array.isArray(data.upcoming)) {
-                        data.upcoming.forEach((company) => {
-                            const companyDiv = document.createElement("li");
-                            companyDiv.classList.add("overflow-hidden", "rounded-xl", "border", "border-gray-200", "py-2", "clickable-div");
+            // Handle Upcoming IPOs
+            if (Array.isArray(data.upcoming)) {
+              data.upcoming.forEach((company) => {
+                const companyDiv = document.createElement("li");
+                companyDiv.classList.add(
+                  "overflow-hidden",
+                  "rounded-xl",
+                  "border",
+                  "border-gray-200",
+                  "py-2",
+                  "clickable-div"
+                );
 
-                            // Attach the event listener to the companyDiv
-                            companyDiv.addEventListener("click", function () {
-                                sendDataToNewPage(company);
-                            });
+                // Attach the event listener to the companyDiv
+                companyDiv.addEventListener("click", function () {
+                  sendDataToNewPage(company, "newipodetails.html"); // URL for IPO details
+                });
 
-                            companyDiv.innerHTML = `
+                companyDiv.innerHTML = `
                                 <div class="flex items-center gap-x-4 border-gray-900/5 py-2 px-3">
-                                    <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="${company.ipoName}" class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                                    <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="${
+                                      company.ipoName
+                                    }" class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
                                     <div>
-                                        <div class="text-sm/6 font-medium text-gray-900">${company.ipoName}</div>
+                                        <div class="text-sm/6 font-medium text-gray-900">${
+                                          company.ipoName
+                                        }</div>
                                         <span class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">UPCOMING</span>
                                     </div>
                                 </div>
@@ -397,11 +480,17 @@
                                     <div class="flex justify-between gap-x-4 py-3">
                                         <div>
                                             <dt class="text-gray-500">Bidding Starts</dt>
-                                            <dd class="text-gray-700 font-bold"><time datetime="${company.biddingStartDate}">${new Date(company.biddingStartDate).toLocaleDateString()}</time></dd>
+                                            <dd class="text-gray-700 font-bold"><time datetime="${
+                                              company.biddingStartDate
+                                            }">${new Date(
+                  company.biddingStartDate
+                ).toLocaleDateString()}</time></dd>
                                         </div>
                                         <div>
                                             <dt class="text-gray-500 flex justify-end">Min Price</dt>
-                                            <dd class="text-gray-700 font-bold flex justify-end"><time datetime="${company.biddingEndDate}">${company.minPrice}</time></dd>
+                                            <dd class="text-gray-700 font-bold flex justify-end"><time datetime="${
+                                              company.biddingEndDate
+                                            }">${company.minPrice}</time></dd>
                                         </div>
                                     </div>
                                     <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">
@@ -410,23 +499,27 @@
                                             <div class="font-bold text-gray-900">Max Price</div>
                                         </dt>
                                         <dd class="flex items-start gap-x-2">
-                                            <div class="font-semibold text-green-600">${company.maxPrice}</div>
+                                            <div class="font-semibold text-green-600">${
+                                              company.maxPrice
+                                            }</div>
                                         </dd>
                                     </div>
                                 </dl>
                             `;
-                            companiesContainer.appendChild(companyDiv);
-                        });
-                    } else {
-                        console.error("The API response does not contain an array of upcoming companies.");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching companies:", error);
-                });
-        }
+                companiesContainer.appendChild(companyDiv);
+              });
+            } else {
+              console.error(
+                "The API response does not contain an array of upcoming companies."
+              );
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching companies:", error);
+          });
+      }
 
-        fetchCompanies();
+      fetchCompanies();
 
       const clientInfoUrl =
         "https://ipo.gwcindia.in/v3/api-client-info.php?clientCode=GZ10219"; // API for client info
@@ -443,14 +536,155 @@
           });
       }
       fetchClientInfo();
+      fetchApplications();
       window.onload = function () {
         setTimeout(() => {
-          // Hide shimmer section
           document.getElementById("shimmer").style.display = "none";
-          // Show the content section (no-shimmer)
+
           document.getElementById("no-shimmer").style.display = "block";
-        }, 2000); // Delay for 2 seconds
+        }, 2000);
       };
+      function fetchApplications() {
+        // Show shimmer effect while loading
+        document.getElementById("shimmerApplications").style.display = "block";
+        document.getElementById("no-shimmerApplications").style.display =
+          "none";
+
+        fetch(applicationApiUrl)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                "Network response was not ok " + response.statusText
+              );
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log("Fetched data:", data); // Log the fetched data
+            if (!data.applications) {
+              console.error("Applications property is missing in the response");
+              return;
+            }
+
+            const applicationsList =
+              document.getElementById("applicationsList");
+            applicationsList.innerHTML = ""; // Clear previous content
+            if (
+              Array.isArray(data.applications) &&
+              data.applications.length > 0
+            ) {
+              data.applications.forEach((application) => {
+                const applicationDiv = document.createElement("li");
+                applicationDiv.classList.add(
+                  "overflow-hidden",
+                  "rounded-xl",
+                  "border",
+                  "border-gray-200",
+                  "py-2"
+                );
+
+                applicationDiv.addEventListener("click", function () {
+                  debugger;
+                  sendDataToNewPage(application, "applicationdetailpage.html"); // URL for IPO details
+                });
+                applicationDiv.innerHTML = `
+            <div class=" gap-x-4 border-gray-900/5 ">
+                <div>
+                    <div class="flex items-center gap-x-4 border-gray-900/5 py-2 px-3">
+                        <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="${
+                          application.ipoName
+                        }" class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                        <div>
+                            <div class="text-sm/6 font-medium text-gray-900">${
+                              application.ipoName || "N/A"
+                            }</div>
+                            <span class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">MAINBOARD</span>
+                        </div>
+                    </div>
+                </div>
+                <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
+                    <div class="flex justify-between gap-x-4 py-3">
+                        <div>
+                            <dt class="text-gray-500">Bidding Date</dt>
+                            <dd class="text-gray-700 font-bold"><time datetime="${
+                              application.requestedDateTime
+                            }">${new Date(
+                  application.requestedDateTime
+                ).toLocaleDateString()}</time></dd>
+                        </div>
+                        <div>
+                            <dt class="text-gray-500 flex justify-end">Quantity</dt>
+                            <dd class="text-gray-700 font-bold flex justify-end">${
+                              application.qty || "N/A"
+                            }</dd>
+                        </div>
+                    </div>
+                    <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">
+                        <dt class="text-gray-500"><span class="inline-flex items-center rounded-md bg-white px-1.5 py-0.5 text-xs font-medium text-gray-600">Issue Size</span></dt>
+                        <dt>
+                            <div class="font-bold text-gray-900">Max Price</div>
+                        </dt>
+                        <dd class="flex items-start gap-x-2">
+                            <div class="font-semibold text-green-600">${
+                              application.price
+                            }</div>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        `;
+                applicationsList.appendChild(applicationDiv);
+              });
+            } else {
+              applicationsList.innerHTML = "<li>No applications found.</li>";
+            }
+
+            // Hide shimmer effect and show applications
+            document.getElementById("shimmerApplications").style.display =
+              "none";
+            document.getElementById("no-shimmerApplications").style.display =
+              "block";
+          })
+          .catch((error) => {
+            console.error("Error fetching applications:", error);
+            // Hide shimmer effect in case of error
+            document.getElementById("shimmerApplications").style.display =
+              "none";
+            document.getElementById("no-shimmerApplications").style.display =
+              "block";
+          });
+      }
+      function sendDataToNewPage(company, url) {
+        debugger
+    const queryParams = new URLSearchParams({
+        name: company.ipoName || '',
+        biddingStartDate: company.biddingStartDate || '',
+        biddingEndDate: company.biddingEndDate || '',
+        minPrice: company.minPrice !== undefined ? company.minPrice.toString() : '',
+        maxPrice: company.maxPrice !== undefined ? company.maxPrice.toString() : company.price || '',
+        cutOffPrice: company.cutOffPrice || '',
+        lotSize: company.lotSize || company.qty || '',
+        issueSize: company.issueSize || '',
+        registrar: company.registrar || '',
+        issueType: company.issueType || '',
+        subType: company.subType || '',
+        entryDate: company.entryDate || '',
+        entryTime: company.entryTime || '',
+        isin: company.isin || '',
+        ipoSymbol: company.ipoSymbol || '',
+        upiId:company.upiId || '',
+        applicationNo:company.applicationNo || ''
+    }).toString();
+  
+    window.location.href = `${url}?${queryParams}`;
+}
+      companyDiv.addEventListener("click", function () {
+        sendDataToNewPage(company, "newipodetails.html"); // URL for IPO details
+      });
+      applicationDiv.addEventListener("click", function () {
+        debugger;
+        sendDataToNewPage(application, "applicationdetailpage.html"); // URL for application details
+      });
     </script>
   </body>
 </html>

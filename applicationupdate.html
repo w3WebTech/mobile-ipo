@@ -291,9 +291,12 @@
       const ipoType = urlParams.get("ipoType") || "RIGHTS";
       const IpoSymbol = urlParams.get("ipoSymbol") || "none";
       const Isin = urlParams.get("isin") || "none";
-
+      const upiId = urlParams.get("upiId") || "";
+      const applicationNo=urlParams.get("applicationNo") || "";
       // Update content based on the query parameters
       document.getElementById("lotSize").textContent = lotSize;
+      document.getElementById("lotCount").textContent = lotSize;
+      
       document.getElementById("companyName").textContent = companyName;
       document.getElementById(
         "priceRange"
@@ -308,8 +311,12 @@
 
       // Function to update the Apply button state
       function updateApplyButtonState() {
+        debugger;
         const applyButton = document.getElementById("applyButton");
         const upiInput = document.querySelector('input[type="text"]'); // Select the UPI ID input field
+        if (upiId) {
+          upiInput.value = upiId; // Set the UPI ID if it exists
+        } // Select the UPI ID input field
         const isUpiEmpty = upiInput.value.trim() === ""; // Check if UPI ID is empty
 
         if (lotCount === 0 || isUpiEmpty) {
@@ -326,6 +333,9 @@
 
       // Event listener for UPI ID input field
       const upiInput = document.querySelector('input[type="text"]'); // Select the UPI ID input field
+      if (upiId) {
+        upiInput.value = upiId; // Set the UPI ID if it exists
+      }
       upiInput.addEventListener("input", updateApplyButtonState); // Check UPI ID on input change
 
       incrementButton.addEventListener("click", () => {
@@ -398,51 +408,48 @@
 
       // Handle Apply for IPO button click
       document.getElementById("applyButton").addEventListener("click", () => {
-        const clientCode = "GZ10219";
-        // const isin = "INE0WO601020";
-        // const ipoSymbol = "LAXMIDENTL";
-        const upiId = "8883234632@ybl";
-        const category = "IND";
-        const qty = lotCount; // Set quantity based on user selection
-        const price = document.getElementById("bidPrice").value || 290; // Set price from user input
-        const cutOff = true;
-        const isin = Isin;
-        const ipoSymbol = IpoSymbol;
-        val = qty * lotSize;
+    const clientCode = "GZ10219";
+  
+    const upiId = document.querySelector('input[type="text"]').value; // Get UPI ID from input field
+    const category = "IND";
+    const qty = lotCount; // Set quantity based on user selection
+    const price = document.getElementById("bidPrice").value || 290; // Set price from user input
+    const cutOff = true;
+    const isin = Isin; // Ensure this variable is defined
+    const ipoSymbol = IpoSymbol; // Ensure this variable is defined
 
-        const formData = new FormData();
-        formData.append("clientCode", clientCode);
-        formData.append("isin", isin);
-        formData.append("ipoSymbol", ipoSymbol);
-        formData.append("upiId", upiId);
-        formData.append("category", category);
-        formData.append("qty", val);
-        formData.append("price", price);
-        formData.append("cutOff", cutOff);
+    const formData = new FormData();
+    formData.append("clientCode", clientCode);
+    formData.append("isin", isin);
+    formData.append("ipoSymbol", ipoSymbol);
+    formData.append("applicationNo", applicationNo); // Add application number
+    formData.append("qty", qty); // Use qty directly
+    formData.append("price", price);
+    formData.append("cutOff", cutOff);
 
-        fetch("https://ipo.gwcindia.in/v3/api-apply-ipo.php", {
-          method: "POST",
-          headers: {
+    fetch("https://ipo.gwcindia.in/v3/api-modify-ipo.php", {
+        method: "POST",
+        headers: {
             Cookie: "PHPSESSID=f84t4fg8ir4sa2eagd3pp1k3g7", // Replace with your session cookie if necessary
-          },
-          body: formData,
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.status === "success") {
-              showModal(data.status, data.message);
-            } else {
-              showModal("Error", data.message || "An error occurred.");
-            }
+        },
+        body: formData,
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.status === "success") {
+            showModal(data.status, data.message);
+        } else {
+            showModal("Error", data.message || "An error occurred.");
+        }
 
-            console.log(data);
-          })
-          .catch((error) => {
-            showModal("Error", "Error submitting application!");
-            console.error(error);
-          });
-      });
-    
+        console.log(data);
+    })
+    .catch((error) => {
+        showModal("Error", "Error submitting application!");
+        console.error(error);
+    });
+});
+
     </script>
   </body>
 </html>
