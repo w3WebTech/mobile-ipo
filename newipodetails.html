@@ -349,14 +349,18 @@
             </div>
           </div>
         </div>
-        <div class="bg-gray-100 h-2 my-5"></div>
-        <div class="p-3 px-5">
-          <div class="font-bold text-gray-700 text-xl">About the Company</div>
-          <div class="py-4" id="aboutCompany">Loading...</div>
-          <div class="font-bold text-gray-700 text-xl">Object of the Issue</div>
-          <div class="pl-5 py-3" id="objectOfIssue">Loading...</div>
-        </div>
        
+        <div class="p-3 px-5">
+          <div id="aboutCompanySection">
+            <div class="bg-gray-100 h-2 my-5"></div>
+            <div class="font-bold text-gray-700 text-xl">About the Company</div>
+            <div class="py-4" id="aboutCompany">Loading...</div>
+          </div>
+          <div id="objectOfIssueSection">
+            <div class="font-bold text-gray-700 text-xl">Object of the Issue</div>
+            <div class="pl-5 py-3" id="objectOfIssue">Loading...</div>
+          </div>
+        </div>
      
      
 
@@ -604,8 +608,22 @@
     document.getElementById("minimumInvestment").innerText = `${ipoDetails.minimumInvestment}`;
     document.getElementById("maximumInvestment").innerText = `${ipoDetails.maximumInvestment}`;
     document.getElementById("overallSubscriptions").innerText = ipoDetails.overallSubscriptions;
-    document.getElementById("aboutCompany").innerText = ipoDetails.aboutCompany;
-    document.getElementById("objectOfIssue").innerText = ipoDetails.objectOfIssue;
+
+    // Set the content for About the Company and Object of the Issue
+    const aboutCompany = ipoDetails.aboutCompany || "Loading...";
+    const objectOfIssue = ipoDetails.objectOfIssue || "Loading...";
+
+    document.getElementById("aboutCompany").innerText = aboutCompany;
+    document.getElementById("objectOfIssue").innerText = objectOfIssue;
+
+    // Hide sections if they are empty
+    if (!aboutCompany || aboutCompany === "Loading...") {
+        document.getElementById("aboutCompanySection").style.display = 'none';
+    }
+
+    if (!objectOfIssue || objectOfIssue === "Loading...") {
+        document.getElementById("objectOfIssueSection").style.display = 'none';
+    }
 
     // Display strengths
     const strengthsContainer = document.getElementById("strengthsContainer");
@@ -678,7 +696,6 @@
             .map(
                 (date) => `
                 <li class="py-2">${date}</li>
-                
                 `
             )
             .join("");
