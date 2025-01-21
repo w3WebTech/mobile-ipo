@@ -368,13 +368,13 @@
       const apiUrl = "https://ipo.gwcindia.in/v3/api-ipo-master.php"; // Update with your API URL
       const applicationApiUrl =
         "https://ipo.gwcindia.in/v3/api-client-applications.php?clientCode=GZ10219";
-           const companyList=[];
+      const companyList = [];
       function fetchCompanies() {
         fetch(apiUrl)
           .then((response) => response.json())
           .then((data) => {
             console.log(data); // Log the raw data to check its structure
-            data.upcoming
+            data.upcoming;
             // Handle Open and Upcoming IPOs
             const companiesContainer =
               document.getElementById("companiesContainer");
@@ -495,15 +495,13 @@
                                             }">${company.minPrice}</time></dd>
                                         </div>
                                     </div>
-                                    <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">
-                                        <dt class="text-gray-500"><span class="inline-flex items-center rounded-md bg-white px-1.5 py-0.5 text-xs font-medium text-gray-600">Issue Size</span></dt>
+                                     <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">
+                                        <dt class="text-gray-500"><span class="inline-flex items-center rounded-md bg-white px-1.5 py-0.5 text-xs font-medium text-gray-600">Day 1</span></dt>
                                         <dt>
-                                            <div class="font-bold text-gray-900">Max Price</div>
+                                            <div class="font-bold text-gray-900">Overall Subscription</div>
                                         </dt>
                                         <dd class="flex items-start gap-x-2">
-                                            <div class="font-semibold text-green-600">${
-                                              company.maxPrice
-                                            }</div>
+                                            <div class="font-semibold text-green-600">0.71x</div>
                                         </dd>
                                     </div>
                                 </dl>
@@ -538,13 +536,13 @@
           });
       }
       function calculateMaxInvestment(maxPrice, lotSize) {
-    // Ensure maxPrice and lotSize are numbers
-    const max = parseFloat(maxPrice) || 0;
-    const lot = parseInt(lotSize) || 0;
+        // Ensure maxPrice and lotSize are numbers
+        const max = parseFloat(maxPrice) || 0;
+        const lot = parseInt(lotSize) || 0;
 
-    // Calculate maximum investment
-    return `₹ ${(max * lot).toFixed(2)}`; // Format to 2 decimal places
-}
+        // Calculate maximum investment
+        return `₹ ${(max * lot).toFixed(2)}`; // Format to 2 decimal places
+      }
 
       fetchClientInfo();
       fetchApplications();
@@ -571,7 +569,6 @@
             return response.json();
           })
           .then((data) => {
-           
             console.log("Fetched data:", data); // Log the fetched data
             if (!data.applications) {
               console.error("Applications property is missing in the response");
@@ -616,32 +613,37 @@
                 </div>
                 <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
                     <div class="flex justify-between gap-x-4 py-3">
+                     
                         <div>
-                            <dt class="text-gray-500">Bidding Date</dt>
+                            <dt class="text-gray-500 flex justify-end">Invested</dt>
+                            <dd class="text-gray-700 font-bold flex justify-start px-1 ">₹${
+                              application.totalPrice || "N/A"
+                            }</dd>
+                        </div>
+                           <div>
+                            <dt class="text-gray-500 flex justify-end">Bit Price</dt>
+                            <dd class="text-gray-700 font-bold flex justify-start">₹${
+                              application.price || "N/A"
+                            }</dd>
+                        </div>
+                           <div>
+                            <dt class="text-gray-500 flex justify-end">Listed On</dt>
                             <dd class="text-gray-700 font-bold"><time datetime="${
                               application.requestedDateTime
                             }">${new Date(
                   application.requestedDateTime
                 ).toLocaleDateString()}</time></dd>
                         </div>
-                        <div>
-                            <dt class="text-gray-500 flex justify-end">Quantity</dt>
-                            <dd class="text-gray-700 font-bold flex justify-end">${
-                              application.qty || "N/A"
-                            }</dd>
-                        </div>
                     </div>
-                    <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">
-                        <dt class="text-gray-500"><span class="inline-flex items-center rounded-md bg-white px-1.5 py-0.5 text-xs font-medium text-gray-600">Issue Size</span></dt>
-                        <dt>
-                            <div class="font-bold text-gray-900">Max Price</div>
-                        </dt>
-                        <dd class="flex items-start gap-x-2">
-                            <div class="font-semibold text-green-600">${
-                              application.price
-                            }</div>
-                        </dd>
-                    </div>
+                  <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">
+                                        <dt class="text-gray-500"><span class="inline-flex items-center rounded-md bg-white px-1.5 py-0.5 text-xs font-medium text-gray-600">Day 1</span></dt>
+                                        <dt>
+                                            <div class="font-bold text-gray-900">Overall Subscription</div>
+                                        </dt>
+                                        <dd class="flex items-start gap-x-2">
+                                            <div class="font-semibold text-green-600">0.71x</div>
+                                        </dd>
+                                    </div>
                 </dl>
             </div>
         `;

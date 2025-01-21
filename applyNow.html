@@ -11,20 +11,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       .min-h-screen {
-        min-height: calc(
-          100vh - 4rem
-        ); /* Adjust based on the height of your button */
+        min-height: calc(100vh - 4rem);
       }
       body {
         margin: 0;
       }
-      /* Button fixed to bottom */
       .fixed-bottom-button {
         position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
-        z-index: 50; /* Ensure it's above all other content */
+        z-index: 50;
       }
     </style>
   </head>
@@ -32,9 +29,7 @@
   <body>
     <div class="overflow-hidden min-h-screen">
       <!-- Header Section -->
-      <div
-        class="block md:hidden bg-blue-600 sm:relative sm:h-[80px] overflow-hidden"
-      >
+      <div class="block md:hidden bg-blue-600 sm:relative sm:h-[80px] overflow-hidden">
         <div class="flex justify-center items-center text-center">
           <div class="w-screen">
             <div class="mx-auto p-3 my-4 mb-20 rounded-md text-white font-bold">
@@ -87,16 +82,17 @@
       </div>
 
       <!-- Main content -->
-      <div
-        class="flex justify-center items-center absolute top-12 left-0 right-0 overflow-hidden"
-      >
+      <div class="flex justify-center items-center absolute top-12 left-0 right-0 overflow-hidden">
         <div class="rounded-md border mt-5 bg-white shadow-lg w-full max-w-4xl">
           <!-- IPO Information -->
           <div>
             <div class="flex justify-between py-6 px-3 font-bold text-xl">
               <div class="flex justify-between">
                 <div>
-                  <div class="px-5" id="companyName">Ventive Hospitality</div>
+                  <div class="flex">
+                    <div class="px-5" id="companyName">Ventive Hospitality</div>
+                    <span class="rounded-sm bg-indigo-50 px-1 py-0.5 text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10 flex text-center items-center">MAINBOARD</span>
+                  </div>
                   <div class="text-gray-500 text-sm px-5" id="priceRange">
                     ₹ 610.00 - ₹ 643.00
                   </div>
@@ -106,86 +102,58 @@
             <div class="bg-gray-100 h-2"></div>
             <div class="px-4 py-2">
               <div class="flex items-center gap-x-2 border-gray-900/5">
-                <div>Investor Type</div>
-                <div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="mt-1 h-6 w-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
-                    />
-                  </svg>
-                </div>
+                <div class="text-gray-600">Investor Type</div>
               </div>
-              <div class="px-3 flex gap-x-2 text-sm">
+              <div class="flex gap-x-2 text-sm">
                 <span
                   id="retailButton"
-                  class="my-2 inline-flex items-center rounded-md bg-white px-1.5 py-2 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 cursor-pointer"
+                  class="my-2 inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 cursor-pointer"
                   >Retail</span
                 >
                 <span
                   id="hniButton"
-                  class="my-2 inline-flex items-center rounded-md bg-white px-1.5 py-2 text-xs font-medium text-black-700 ring-1 ring-inset ring-gray-400/10 cursor-pointer"
+                  class="my-2 inline-flex items-center rounded-md bg-white  px-4 py-2 text-sm font-medium text-black-700 ring-1 ring-inset ring-gray-400/10 cursor-pointer"
                   >HNI</span
                 >
                 <span
                   id="employeeButton"
-                  class="my-2 inline-flex items-center rounded-md bg-white px-1.5 py-2 text-xs font-medium text-black-700 ring-1 ring-inset ring-gray-400/10 cursor-pointer"
+                  class="my-2 inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-medium text-black-700 ring-1 ring-inset ring-gray-400/10 cursor-pointer"
                   >Employee</span
                 >
               </div>
             </div>
             <div class="flex justify-between px-4 py-2">
-              <div>Number of lots</div>
-              <div>Maximum No of lots : <span id="lotSize">13</span></div>
+              <div class="text-gray-600"> Number of lots</div>
+              <div class="text-gray-600">Maximum No of lots : <span id="lotSize" class="text-gray-600">13</span></div>
             </div>
             <div class="px-4">
               <div class="grid grid-cols-12 gap-x-4">
-                <div class="col-span-3">
-                  <div
-                    class="p-4 rounded-md border border-gray-900/5 flex justify-center bg-gray-100"
-                  >
-                    <button id="decrement" class="text-xl focus:outline-none">
-                      -
-                    </button>
+                <div class="col-span-2">
+                  <div class="p-1 rounded-md border border-gray-900/5 flex justify-center bg-gray-100 flex item-center text-center">
+                    <button id="decrement" class="text-2xl focus:outline-none font-bold">-</button>
                   </div>
                 </div>
-                <div class="col-span-6">
-                  <div
-                    class="p-4 rounded-md border border-gray-900/5 flex justify-center"
-                  >
+                <div class="col-span-8">
+                  <div class="p-2 rounded-md border border-gray-900/5 flex justify-center">
                     <span id="lotCount">0</span>
                   </div>
                 </div>
-                <div class="col-span-3">
-                  <div
-                    class="p-4 rounded-md border border-gray-900/5 flex justify-center bg-gray-100"
-                  >
-                    <button id="increment" class="text-xl focus:outline-none">
-                      +
-                    </button>
+                <div class="col-span-2">
+                  <div class="p-1 rounded-md border border-gray-900/5 flex justify-center bg-gray-100 flex item-center text-center">
+                    <button id="increment" class="text-2xl focus:outline-none font-bold">+</button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="px-4">
-              <div>Bid price</div>
+              <div class="text-gray-600 py-2">Bid price</div>
               <input
                 type="number"
                 id="bidPrice"
-                class="p-4 my-3 rounded-md border border-gray-900/5 w-full focus:outline-blue-500"
+                class="px-4 py-2 rounded-md border border-gray-900/5 w-full focus:outline-blue-500"
               />
             </div>
-            <div
-              class="flex justify-between px-4 py-5 bg-gray-100 m-4 rounded-md"
-            >
+            <div class="flex justify-between px-4 py-3 bg-gray-100 m-4 rounded-md">
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -201,22 +169,18 @@
                 </svg>
               </div>
               <div>Switch to HNI to buy more lots</div>
-              <div class="font-bold text-lg text-blue-600 pb-2">MODIFY</div>
+              <div class="font-bold text-sm text-blue-600 mt-1">MODIFY</div>
             </div>
-            <div class="px-4 py-5">
-              <label class="block text-gray-700 font-semibold">
-                Enter UPI ID
-              </label>
-              <p class="text-gray-500 text-sm">
-                Use UPI ID linked to your bank account
-              </p>
+            <div class="px-4 py-2">
+              <label class="block text-gray-600 ">Enter UPI ID</label>
+              <p class="text-gray-500 text-sm py-2">Use UPI ID linked to your bank account</p>
               <div class="flex items-center mt-2">
                 <img
                   alt="UPI logo"
                   class="w-6 h-6"
                   height="40"
                   src="images/images.png"
-                  width="40"
+                  width="50"
                 />
                 <input
                   class="w-full ml-2 px-4 py-2 border border-gray-300 rounded focus:outline-blue-500"
@@ -224,13 +188,17 @@
                 />
                 <i class="fas fa-check-circle text-green-500 ml-2"> </i>
               </div>
-              <!-- <p class="text-green-600 mt-2">
-               VIJAY BHARATHI
-              </p> -->
             </div>
           </div>
         </div>
         <div class="fixed-bottom-button">
+          <div class="flex justify-between px-4 py-2">
+            <div class="flex">Total Payable amount <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-3 w-3 mx-3 my-2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+            </span></div>
+            <div id="totalAmount" class="px-4">0</div>
+          </div>
           <button
             type="button"
             class="rounded-md bg-blue-800 py-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 mb-10 focus:outline-none mx-4 w-[90%]"
@@ -240,9 +208,6 @@
           </button>
         </div>
       </div>
-      <!-- Modal Structure -->
-
-      <!-- Fixed Bottom Button -->
     </div>
     <div
       id="responseModal"
@@ -268,10 +233,10 @@
         document.getElementById("responseModal").classList.remove("hidden");
       }
 
-      // Close modal event
       document.getElementById("closeModal").addEventListener("click", () => {
         document.getElementById("responseModal").classList.add("hidden");
       });
+
       const clickableDivs = document.querySelectorAll(".clickable-div");
       clickableDivs.forEach((div) => {
         div.addEventListener("click", function () {
@@ -279,7 +244,7 @@
           window.location.href = targetPage;
         });
       });
-      // Extract query parameters from the URL
+
       const urlParams = new URLSearchParams(window.location.search);
       const companyName = urlParams.get("name") || "Sobha Limited";
       const minimumInvestment = urlParams.get("minimumInvestment") || 825.5;
@@ -292,46 +257,46 @@
       const IpoSymbol = urlParams.get("ipoSymbol") || "none";
       const Isin = urlParams.get("isin") || "none";
 
-      // Update content based on the query parameters
       document.getElementById("lotSize").textContent = lotSize;
       document.getElementById("companyName").textContent = companyName;
-      document.getElementById(
-        "priceRange"
-      ).textContent = `₹ ${minimumInvestment} - ₹ ${maximumInvestment}`;
+      document.getElementById("priceRange").textContent = `₹ ${minimumInvestment}.00 - ₹ ${maximumInvestment}.00`;
       document.getElementById("bidPrice").value = bidPrice;
 
       const lotCountDisplay = document.getElementById("lotCount");
       let lotCount = 0;
+      document.getElementById('totalAmount').innerText = `₹ ${issueSize}`; 
 
       const incrementButton = document.getElementById("increment");
       const decrementButton = document.getElementById("decrement");
 
-      // Function to update the Apply button state
       function updateApplyButtonState() {
         const applyButton = document.getElementById("applyButton");
-        const upiInput = document.querySelector('input[type="text"]'); // Select the UPI ID input field
-        const isUpiEmpty = upiInput.value.trim() === ""; // Check if UPI ID is empty
+        const upiInput = document.querySelector('input[type="text"]');
+        const isUpiEmpty = upiInput.value.trim() === "";
 
         if (lotCount === 0 || isUpiEmpty) {
-          applyButton.disabled = true; // Disable the button
-          applyButton.classList.add("opacity-50", "cursor-not-allowed"); // Add styles to indicate it's disabled
+          applyButton.disabled = true;
+          applyButton.classList.add("opacity-50", "cursor-not-allowed");
         } else {
-          applyButton.disabled = false; // Enable the button
-          applyButton.classList.remove("opacity-50", "cursor-not-allowed"); // Remove disabled styles
+          applyButton.disabled = false;
+          applyButton.classList.remove("opacity-50", "cursor-not-allowed");
         }
       }
 
-      // Call this function initially to set the correct state
       updateApplyButtonState();
 
-      // Event listener for UPI ID input field
-      const upiInput = document.querySelector('input[type="text"]'); // Select the UPI ID input field
-      upiInput.addEventListener("input", updateApplyButtonState); // Check UPI ID on input change
+      const upiInput = document.querySelector('input[type="text"]');
+      upiInput.addEventListener("input", updateApplyButtonState);
+
+      function updateLotCountDisplay() {
+        lotCountDisplay.textContent = lotCount;
+      }
 
       incrementButton.addEventListener("click", () => {
-        if (lotCount < lotSize) {
+        const maxLotSize = parseInt(document.getElementById("lotSize").textContent);
+        if (lotCount < maxLotSize) {
           lotCount++;
-          lotCountDisplay.textContent = lotCount;
+          updateLotCountDisplay();
           updateApplyButtonState();
         }
       });
@@ -339,7 +304,7 @@
       decrementButton.addEventListener("click", () => {
         if (lotCount > 0) {
           lotCount--;
-          lotCountDisplay.textContent = lotCount;
+          updateLotCountDisplay();
           updateApplyButtonState();
         }
       });
@@ -349,69 +314,39 @@
       const employeeButton = document.getElementById("employeeButton");
 
       function resetButtons() {
-        retailButton.classList.remove(
-          "border-blue-700",
-          "text-blue-700",
-          "bg-blue-50"
-        );
+        retailButton.classList.remove("border-blue-700", "text-blue-700", "bg-blue-50");
         retailButton.classList.add("bg-white", "text-blue-700");
-        hniButton.classList.remove(
-          "border-blue-700",
-          "text-blue-700",
-          "bg-blue-50"
-        );
+        hniButton.classList.remove("border-blue-700", "text-blue-700", "bg-blue-50");
         hniButton.classList.add("bg-white", "text-black-700");
-        employeeButton.classList.remove(
-          "border-blue-700",
-          "text-blue-700",
-          "bg-blue-50"
-        );
+        employeeButton.classList.remove("border-blue-700", "text-blue-700", "bg-blue-50");
         employeeButton.classList.add("bg-white", "text-black-700");
       }
 
       retailButton.addEventListener("click", () => {
         resetButtons();
-        retailButton.classList.add(
-          "border-blue-700",
-          "text-blue-700",
-          "bg-blue-50"
-        );
+        retailButton.classList.add("border-blue-700", "text-blue-700", "bg-blue-50");
       });
 
       hniButton.addEventListener("click", () => {
         resetButtons();
-        hniButton.classList.add(
-          "border-blue-700",
-          "text-blue-700",
-          "bg-blue-50"
-        );
+        hniButton.classList.add("border-blue-700", "text-blue-700", "bg-blue-50");
       });
 
       employeeButton.addEventListener("click", () => {
         resetButtons();
-        employeeButton.classList.add(
-          "border-blue-700",
-          "text-blue-700",
-          "bg-blue-50"
-        );
+        employeeButton.classList.add("border-blue-700", "text-blue-700", "bg-blue-50");
       });
 
-      // Handle Apply for IPO button click
       document.getElementById("applyButton").addEventListener("click", () => {
-
-
-        
         const clientCode = "GZ10219";
-        // const isin = "INE0WO601020";
-        // const ipoSymbol = "LAXMIDENTL";
         const upiId = "8883234632@ybl";
         const category = "IND";
-        const qty = lotCount; // Set quantity based on user selection
-        const price = document.getElementById("bidPrice").value || 290; // Set price from user input
+        const qty = lotCount;
+        const price = document.getElementById("bidPrice").value || 290;
         const cutOff = true;
         const isin = Isin;
         const ipoSymbol = IpoSymbol;
-        val = qty * lotSize;
+        const val = qty * lotSize;
 
         const formData = new FormData();
         formData.append("clientCode", clientCode);
@@ -426,7 +361,7 @@
         fetch("https://ipo.gwcindia.in/v3/api-apply-ipo.php", {
           method: "POST",
           headers: {
-            Cookie: "PHPSESSID=f84t4fg8ir4sa2eagd3pp1k3g7", // Replace with your session cookie if necessary
+            Cookie: "PHPSESSID=f84t4fg8ir4sa2eagd3pp1k3g7",
           },
           body: formData,
         })
@@ -437,7 +372,6 @@
             } else {
               showModal("Error", data.message || "An error occurred.");
             }
-
             console.log(data);
           })
           .catch((error) => {
@@ -445,7 +379,6 @@
             console.error(error);
           });
       });
-    
     </script>
   </body>
 </html>
