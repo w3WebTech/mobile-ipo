@@ -32,7 +32,7 @@
       <div class="block md:hidden bg-blue-600 sm:relative sm:h-[80px] overflow-hidden">
         <div class="flex justify-center items-center text-center">
           <div class="w-screen">
-            <div class="mx-auto p-3 my-4 mb-20 rounded-md text-white font-bold">
+            <div class="mx-auto my-4 mb-20 rounded-md text-white font-bold">
               <nav class="absolute top-2 w-full">
                 <div class="grid grid-cols-12 my-4">
                   <div
@@ -100,7 +100,7 @@
               </div>
             </div>
             <div class="bg-gray-100 h-2"></div>
-            <div class="px-4 py-2">
+            <div class="px-5 py-2">
               <div class="flex items-center gap-x-2 border-gray-900/5">
                 <div class="text-gray-600">Investor Type</div>
               </div>
@@ -122,11 +122,11 @@
                 >
               </div>
             </div>
-            <div class="flex justify-between px-4 py-2">
+            <div class="flex justify-between px-5 py-2">
               <div class="text-gray-600"> Number of lots</div>
               <div class="text-gray-600">Maximum  lots : <span id="lotSize" class="text-gray-600">13</span></div>
             </div>
-            <div class="px-4">
+            <div class="px-5">
               <div class="grid grid-cols-12 gap-x-2">
                 <div class="col-span-2">
                   <div id="decrement" class="p-1 text-2xl font-bold  rounded-md border border-gray-900/5 flex justify-center bg-gray-100 flex item-center text-center">
@@ -151,7 +151,7 @@
                 </div>
               </div>
             </div>
-            <div class="px-4">
+            <div class="px-5">
               <div class="text-gray-600 py-2">Bid price</div>
               <input
                 type="number"
@@ -160,7 +160,7 @@
               />
             </div>
             <div class="py-1 my-2 bg-gray-100"></div>
-            <div class="flex justify-between px-4 py-3 bg-gray-100 m-4 rounded-md">
+            <div class="flex justify-between px-5 py-3 bg-gray-100 m-4 rounded-md">
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +178,7 @@
               <div>Switch to HNI to buy more lots</div>
               <div class="font-bold text-sm text-blue-600 mt-1">MODIFY</div>
             </div>
-            <div class="px-4 py-2">
+            <div class="px-5 py-2">
               <label class="block text-gray-600 ">Enter UPI ID</label>
               <p class="text-gray-500 text-sm py-2">Use UPI ID linked to your bank account</p>
               <div class="flex items-center mt-2">
@@ -198,7 +198,7 @@
               </div>
             </div>
             <div class="">
-              <label class="block text-gray-600 px-4 py-2">VERIFY UPI</label>
+              <label class="block text-gray-600 px-5 py-2">VERIFY UPI</label>
               <p class="bg-gray-100 text-sm h-[400px]"></p>
           
             </div>
@@ -210,7 +210,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
             </span></div>
-            <div id="totalAmount" class="px-4">0</div>
+            <div id="totalAmount" class="px-4 font-bold">0</div>
           </div>
           <button
             type="button"
@@ -278,7 +278,7 @@
 
       const lotCountDisplay = document.getElementById("lotCount");
       let lotCount = 0;
-      document.getElementById('totalAmount').innerText = `₹ ${issueSize}`; 
+      document.getElementById('totalAmount').innerText = `₹ ${issueSize} .00`; 
 
       const incrementButton = document.getElementById("increment");
       const decrementButton = document.getElementById("decrement");
