@@ -45,7 +45,7 @@
         left: 0; /* Start at the left */
         height: 2px; /* Height of the indicator */
         width: 100px; /* Width of the indicator (adjust as needed) */
-        background-color: rgb(31, 87, 209); /* Color of the indicator */
+        background-color: rgb(4, 65, 197);
         transition: left 2s ease-in-out; /* Smooth left transition */
       }
 
@@ -78,7 +78,7 @@
         left: 0;
         width: 50%; /* Adjust to the number of tabs */
         height: 2px;
-        background-color: #3498db;
+        background-color: rgb(4, 65, 197);
         transition: left 0.3s ease-in-out;
       }
 
@@ -163,8 +163,8 @@
           <input type="radio" id="tab2" name="tab" />
 
           <div class="tab-titles">
-            <label for="tab1" class="tab">Open & Upcoming</label>
-            <label for="tab2" class="tab ml-8">Your Application</label>
+            <label for="tab1" class="tab mx-4">Open & Upcoming</label>
+            <label for="tab2" class="tab mx-4">Your Application</label>
           </div>
 
           <div class="tab-content">
@@ -368,13 +368,13 @@
       const apiUrl = "https://ipo.gwcindia.in/v3/api-ipo-master.php"; // Update with your API URL
       const applicationApiUrl =
         "https://ipo.gwcindia.in/v3/api-client-applications.php?clientCode=GZ10219";
-
+           const companyList=[];
       function fetchCompanies() {
         fetch(apiUrl)
           .then((response) => response.json())
           .then((data) => {
             console.log(data); // Log the raw data to check its structure
-
+            data.upcoming
             // Handle Open and Upcoming IPOs
             const companiesContainer =
               document.getElementById("companiesContainer");
@@ -405,35 +405,37 @@
                                         <div class="text-sm/6 font-medium text-gray-900">${
                                           company.ipoName
                                         }</div>
-                                        <span class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">MAINBOARD</span>
+                                        <span class="rounded-sm bg-indigo-50 px-1 py-0.5 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">MAINBOARD</span>
                                     </div>
                                 </div>
                                 <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
                                     <div class="flex justify-between gap-x-4 py-3">
                                         <div>
-                                            <dt class="text-gray-500">Bidding Starts</dt>
+                                            <dt class="text-gray-500">Closes on</dt>
                                             <dd class="text-gray-700 font-bold"><time datetime="${
-                                              company.biddingStartDate
+                                              company.biddingEndDate
                                             }">${new Date(
-                  company.biddingStartDate
+                  company.biddingEndDate
                 ).toLocaleDateString()}</time></dd>
                                         </div>
-                                        <div>
-                                            <dt class="text-gray-500 flex justify-end">Min Price</dt>
-                                            <dd class="text-gray-700 font-bold flex justify-end"><time datetime="${
-                                              company.biddingEndDate
-                                            }">${company.minPrice}</time></dd>
-                                        </div>
+                                        
+                                       <div class="">
+    <dt class="text-gray-500 flex justify-end">Minimum Investment</dt>
+    <dd class="text-gray-700 font-bold flex items-center justify-end" id="maxInvestment">
+        <time datetime="${company.biddingEndDate}">
+            ${calculateMaxInvestment(company.minPrice, company.lotSize)}
+        </time>
+        <span class="ml-2">/ ${company.minBidQuantity} shares</span>
+    </dd>
+</div>
                                     </div>
                                     <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">
-                                        <dt class="text-gray-500"><span class="inline-flex items-center rounded-md bg-white px-1.5 py-0.5 text-xs font-medium text-gray-600">Issue Size</span></dt>
+                                        <dt class="text-gray-500"><span class="inline-flex items-center rounded-md bg-white px-1.5 py-0.5 text-xs font-medium text-gray-600">Day 1</span></dt>
                                         <dt>
-                                            <div class="font-bold text-gray-900">Max Price</div>
+                                            <div class="font-bold text-gray-900">Overall Subscription</div>
                                         </dt>
                                         <dd class="flex items-start gap-x-2">
-                                            <div class="font-semibold text-green-600">${
-                                              company.maxPrice
-                                            }</div>
+                                            <div class="font-semibold text-green-600">0.71x</div>
                                         </dd>
                                     </div>
                                 </dl>
@@ -535,6 +537,15 @@
             console.error("Error fetching client info:", error);
           });
       }
+      function calculateMaxInvestment(maxPrice, lotSize) {
+    // Ensure maxPrice and lotSize are numbers
+    const max = parseFloat(maxPrice) || 0;
+    const lot = parseInt(lotSize) || 0;
+
+    // Calculate maximum investment
+    return `₹ ${(max * lot).toFixed(2)}`; // Format to 2 decimal places
+}
+
       fetchClientInfo();
       fetchApplications();
       window.onload = function () {
@@ -560,6 +571,7 @@
             return response.json();
           })
           .then((data) => {
+           
             console.log("Fetched data:", data); // Log the fetched data
             if (!data.applications) {
               console.error("Applications property is missing in the response");
@@ -655,29 +667,33 @@
           });
       }
       function sendDataToNewPage(company, url) {
-        debugger
-    const queryParams = new URLSearchParams({
-        name: company.ipoName || '',
-        biddingStartDate: company.biddingStartDate || '',
-        biddingEndDate: company.biddingEndDate || '',
-        minPrice: company.minPrice !== undefined ? company.minPrice.toString() : '',
-        maxPrice: company.maxPrice !== undefined ? company.maxPrice.toString() : company.price || '',
-        cutOffPrice: company.cutOffPrice || '',
-        lotSize: company.lotSize || company.qty || '',
-        issueSize: company.issueSize || '',
-        registrar: company.registrar || '',
-        issueType: company.issueType || '',
-        subType: company.subType || '',
-        entryDate: company.entryDate || '',
-        entryTime: company.entryTime || '',
-        isin: company.isin || '',
-        ipoSymbol: company.ipoSymbol || '',
-        upiId:company.upiId || '',
-        applicationNo:company.applicationNo || ''
-    }).toString();
-  
-    window.location.href = `${url}?${queryParams}`;
-}
+        debugger;
+        const queryParams = new URLSearchParams({
+          name: company.ipoName || "",
+          biddingStartDate: company.biddingStartDate || "",
+          biddingEndDate: company.biddingEndDate || "",
+          minPrice:
+            company.minPrice !== undefined ? company.minPrice.toString() : "",
+          maxPrice:
+            company.maxPrice !== undefined
+              ? company.maxPrice.toString()
+              : company.price || "",
+          cutOffPrice: company.cutOffPrice || "",
+          lotSize: company.lotSize || company.qty || "",
+          issueSize: company.issueSize || "",
+          registrar: company.registrar || "",
+          issueType: company.issueType || "",
+          subType: company.subType || "",
+          entryDate: company.entryDate || "",
+          entryTime: company.entryTime || "",
+          isin: company.isin || "",
+          ipoSymbol: company.ipoSymbol || "",
+          upiId: company.upiId || "",
+          applicationNo: company.applicationNo || "",
+        }).toString();
+
+        window.location.href = `${url}?${queryParams}`;
+      }
       companyDiv.addEventListener("click", function () {
         sendDataToNewPage(company, "newipodetails.html"); // URL for IPO details
       });
