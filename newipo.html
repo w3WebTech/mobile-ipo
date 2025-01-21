@@ -412,11 +412,13 @@
                                     <div class="flex justify-between gap-x-4 py-3">
                                         <div>
                                             <dt class="text-gray-500">Closes on</dt>
-                                            <dd class="text-gray-700 font-bold"><time datetime="${
-                                              company.biddingEndDate
-                                            }">${new Date(
-                  company.biddingEndDate
-                ).toLocaleDateString()}</time></dd>
+                                            <dd class="text-gray-700 font-bold"><time datetime="${company.biddingEndDate}">
+    ${new Date(company.biddingEndDate).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    })}
+  </time></dd>
                                         </div>
                                         
                                        <div class="">
@@ -628,11 +630,13 @@
                         </div>
                            <div>
                             <dt class="text-gray-500 flex justify-end">Listed On</dt>
-                            <dd class="text-gray-700 font-bold"><time datetime="${
-                              application.requestedDateTime
-                            }">${new Date(
-                  application.requestedDateTime
-                ).toLocaleDateString()}</time></dd>
+                            <dd class="text-gray-700 font-bold"><time datetime="${application.requestedDateTime}">
+  ${new Date(application.requestedDateTime).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  })}
+</time></dd>
                         </div>
                     </div>
                   <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">

@@ -654,100 +654,96 @@
         };
       }
       function displayIpoDetails() {
-        const ipoDetails = getQueryParams();
-        console.log(ipoDetails, "ipoDetails");
-        document.getElementById("companyName").innerText = ipoDetails.name;
-        document.getElementById(
-          "bidPrice"
-        ).innerText = `₹ ${ipoDetails.bidPriceMax}.00`;
-        document.getElementById(
-          "lotSize"
-        ).innerText = `${ipoDetails.lotSize} Shares`;
-        document.getElementById(
-          "retailDiscount"
-        ).innerText = `₹ ${ipoDetails.retailDiscount}.00`;
-        if (ipoDetails.issueSize) {
-          document.getElementById(
-            "issueSize"
-          ).innerText = `${ipoDetails.issueSize}`;
-        } else {
-          document.getElementById("issueSize").innerText = "N/A"; // or any default value
-        }
+    const ipoDetails = getQueryParams();
+    console.log(ipoDetails, "ipoDetails");
+    
+    document.getElementById("companyName").innerText = ipoDetails.name;
+    document.getElementById("bidPrice").innerText = `₹ ${ipoDetails.bidPriceMax}.00`;
+    document.getElementById("lotSize").innerText = `${ipoDetails.lotSize} Shares`;
+    document.getElementById("retailDiscount").innerText = `₹ ${ipoDetails.retailDiscount}.00`;
+    
+    document.getElementById("issueSize").innerText = ipoDetails.issueSize ? `${ipoDetails.issueSize}` : "N/A";
+    document.getElementById("offerType").innerText = ipoDetails.offerType || "Mainboard";
+    document.getElementById("ipoType").innerText = ipoDetails.ipoType || "Book Building";
+    
+    document.getElementById("minimumInvestment").innerText =
+        ipoDetails.minimumInvestment
+            ? `₹ ${ipoDetails.minimumInvestment}`
+            : `₹ ${Number(ipoDetails.lotSize) * Number(ipoDetails.bidPrice)}`;
+    
+    document.getElementById("maximumInvestment").innerText =
+        ipoDetails.maximumInvestment
+            ? `₹ ${ipoDetails.maximumInvestment}`
+            : `₹ ${Number(ipoDetails.lotSize) * Number(ipoDetails.bidPrice)}`;
+    
+    document.getElementById("overallSubscriptions").innerText = ipoDetails.overallSubscriptions;
 
-        document.getElementById("offerType").innerText = ipoDetails.offerType
-          ? ipoDetails.offerType
-          : "Mainboard";
-        document.getElementById("ipoType").innerText = ipoDetails.ipoType
-          ? ipoDetails.ipoType
-          : "Book Building";
-        document.getElementById("minimumInvestment").innerText =
-          ipoDetails.minimumInvestment
-            ? `${ipoDetails.minimumInvestment}`
-            : `${Number(ipoDetails.lotSize) * Number(ipoDetails.maxPrice)}`;
-        document.getElementById("maximumInvestment").innerText =
-          ipoDetails.maximumInvestment
-            ? `${ipoDetails.maximumInvestment}`
-            : `₹ ${ipoDetails.lotSize* ipoDetails.maxPrice}`;
-        document.getElementById("overallSubscriptions").innerText =
-          ipoDetails.overallSubscriptions;
+    // Check if aboutCompany data is available
+    const aboutCompanySection = document.getElementById("aboutCompanySection");
+    if (ipoDetails.aboutCompany && ipoDetails.aboutCompany.trim() !== "") {
+        document.getElementById("aboutCompany").innerText = ipoDetails.aboutCompany;
+        aboutCompanySection.style.display = "block"; // Show the section
+    } else {
+        aboutCompanySection.style.display = "none"; // Hide the section
+    }
 
-        // Check if aboutCompany data is available
-        const aboutCompanySection = document.getElementById(
-          "aboutCompanySection"
-        );
-        if (ipoDetails.aboutCompany && ipoDetails.aboutCompany.trim() !== "") {
-          document.getElementById("aboutCompany").innerText =
-            ipoDetails.aboutCompany;
-          aboutCompanySection.style.display = "block"; // Show the section
-        } else {
-          aboutCompanySection.style.display = "none"; // Hide the section
-        }
+    // Check if objectOfIssue data is available
+    const objectOfIssueSection = document.getElementById("objectOfIssueSection");
+    if (ipoDetails.objectOfIssue && ipoDetails.objectOfIssue.trim() !== "") {
+        document.getElementById("objectOfIssue").innerText = ipoDetails.objectOfIssue;
+        objectOfIssueSection.style.display = "block"; // Show the section
+    } else {
+        objectOfIssueSection.style.display = "none"; // Hide the section
+    }
 
-        // Check if objectOfIssue data is available
-        const objectOfIssueSection = document.getElementById(
-          "objectOfIssueSection"
-        );
-        if (
-          ipoDetails.objectOfIssue &&
-          ipoDetails.objectOfIssue.trim() !== ""
-        ) {
-          document.getElementById("objectOfIssue").innerText =
-            ipoDetails.objectOfIssue;
-          objectOfIssueSection.style.display = "block"; // Show the section
-        } else {
-          objectOfIssueSection.style.display = "none"; // Hide the section
-        }
-
-        // Display strengths
-        const strengthsContainer =
-          document.getElementById("strengthsContainer");
-        if (Array.isArray(ipoDetails.strengths)) {
-          strengthsContainer.innerHTML = ipoDetails.strengths
-            .map(
-              (strength) => `
+    // Display strengths
+    const strengthsContainer = document.getElementById("strengthsContainer");
+    if (Array.isArray(ipoDetails.strengths) && ipoDetails.strengths.length > 0) {
+        strengthsContainer.innerHTML = ipoDetails.strengths
+            .map(strength => `
                 <div class="flex">
                     <div>
                         <span class="inline-flex items-center rounded-full bg-green-100 px-1.5 text-xs font-medium text-green-700 py-2 my-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.6543.375Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.6543.375Z" />
                             </svg>
                         </span>
                     </div>
                     <div class="p-2">${strength}</div>
                 </div>
-            `
-            )
+            `)
             .join("");
-        } else {
-          strengthsContainer.innerHTML = "<div>No strengths available.</div>";
-        }
+    } else {
+        // Static values for strengths
+        strengthsContainer.innerHTML = `
+            <div class="flex">
+                <div>
+                    <span class="inline-flex items-center rounded-full bg-green-100 px-1.5 text-xs font-medium text-green-700 py-2 my-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="p-2 py-3">Strong market presence.</div>
+            </div>
+            <div class="flex">
+                <div>
+                    <span class="inline-flex items-center rounded-full bg-green-100 px-1.5 text-xs font-medium text-green-700 py-2 my-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="p-2 py-3"> Experienced management team.</div>
+            </div>
+        `;
+    }
 
-        // Display risks
-        const risksContainer = document.getElementById("risksContainer");
-        if (Array.isArray(ipoDetails.risks)) {
-          risksContainer.innerHTML = ipoDetails.risks
-            .map(
-              (risk) => `
+    // Display risks
+    const risksContainer = document.getElementById("risksContainer");
+    if (Array.isArray(ipoDetails.risks) && ipoDetails.risks.length > 0) {
+        risksContainer.innerHTML = ipoDetails.risks
+            .map(risk => `
                 <div class="flex">
                     <div>
                         <span class="inline-flex items-center rounded-full bg-red-100 px-1.5 text-xs font-medium text-red-700 py-2 my-2">
@@ -758,62 +754,71 @@
                     </div>
                     <div class="p-2">${risk}</div>
                 </div>
-            `
-            )
+            `)
             .join("");
-        } else {
-          risksContainer.innerHTML = "<div>No risks available.</div>";
-        }
+    } else {
+        // Static values for risks
+        risksContainer.innerHTML = `
+            <div class="flex">
+                <div>
+                    <span class="inline-flex items-center rounded-full bg-red-100 px-1.5 text-xs font-medium text-red-700 py-2 my-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="p-2 py-3">Market volatility.</div>
+            </div>
+            <div class="flex">
+                <div>
+                    <span class="inline-flex items-center rounded-full bg-red-100 px-1.5 text-xs font-medium text-red-700 py-2 my-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="p-2 py-3">Regulatory changes.</div>
+            </div>
+        `;
+    }
 
-        // Display shareholding patterns
-        const shareholdingPatternsContainer = document.getElementById(
-          "shareholdingPatternsContainer"
-        );
-        if (Array.isArray(ipoDetails.shareholdingPatterns)) {
-          shareholdingPatternsContainer.innerHTML =
+    // Display shareholding patterns
+    const shareholdingPatternsContainer = document.getElementById("shareholdingPatternsContainer");
+    if (Array.isArray(ipoDetails.shareholdingPatterns) && ipoDetails.shareholdingPatterns.length > 0) {
+        shareholdingPatternsContainer.innerHTML =
             ipoDetails.shareholdingPatterns
-              .map(
-                (pattern) => `
+                .map(pattern => `
                 <tr class="even:bg-gray-50">
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">${pattern.particulars}</td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${pattern.preIssue}</td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${pattern.postIssue}</td>
                 </tr>
-            `
-              )
-              .join("");
-        } else {
-          shareholdingPatternsContainer.innerHTML =
+            `)
+                .join("");
+    } else {
+        // Static values for shareholding patterns
+        shareholdingPatternsContainer.innerHTML =
             "<tr><td colspan='3' class='text-center'>No shareholding patterns available.</td></tr>";
-        }
+    }
 
-        // Display important dates
-        const importantDatesContainer = document.getElementById(
-          "importantDatesContainer"
-        );
-        if (Array.isArray(ipoDetails.importantDates)) {
-          importantDatesContainer.innerHTML = ipoDetails.importantDates
-            .map(
-              (date) => `
+    // Display important dates
+    const importantDatesContainer = document.getElementById("importantDatesContainer");
+    if (Array.isArray(ipoDetails.importantDates) && ipoDetails.importantDates.length > 0) {
+        importantDatesContainer.innerHTML = ipoDetails.importantDates
+            .map(date => `
                 <li class="py-2">${date}</li>
-                `
-            )
+            `)
             .join("");
-        } else {
-          importantDatesContainer.innerHTML =
+    } else {
+        importantDatesContainer.innerHTML =
             "<li>No important dates available.</li>";
-        }
+    }
 
-        // Set report link
-        document
-          .getElementById("reportLink")
-          .setAttribute("href", ipoDetails.reportLink);
-        document.getElementById(
-          "reportTitle"
-        ).innerText = `${ipoDetails.name} Report`;
-      }
-      document
-        .getElementById("applyNowButton")
+    // Set report link
+    document.getElementById("reportLink").setAttribute("href", ipoDetails.reportLink);
+    document.getElementById("reportTitle").innerText = `${ipoDetails.name} Report`;
+}
+document.getElementById("applyNowButton")
         .addEventListener("click", function () {
           const ipoDetails = getQueryParams();
           const params = new URLSearchParams({
