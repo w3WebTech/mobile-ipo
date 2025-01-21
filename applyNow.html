@@ -91,7 +91,7 @@
                 <div>
                   <div class="flex">
                     <div class="px-5" id="companyName">Ventive Hospitality</div>
-                    <span class="rounded-sm bg-indigo-50 px-1 py-0.5 text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10 flex text-center items-center">MAINBOARD</span>
+                    <span class="rounded-sm bg-indigo-50 px-1  text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10 flex text-center items-center">MAINBOARD</span>
                   </div>
                   <div class="text-gray-500 text-sm px-5" id="priceRange">
                     ₹ 610.00 - ₹ 643.00
@@ -124,13 +124,13 @@
             </div>
             <div class="flex justify-between px-4 py-2">
               <div class="text-gray-600"> Number of lots</div>
-              <div class="text-gray-600">Maximum No of lots : <span id="lotSize" class="text-gray-600">13</span></div>
+              <div class="text-gray-600">Maximum  lots : <span id="lotSize" class="text-gray-600">13</span></div>
             </div>
             <div class="px-4">
-              <div class="grid grid-cols-12 gap-x-4">
+              <div class="grid grid-cols-12 gap-x-2">
                 <div class="col-span-2">
-                  <div class="p-1 rounded-md border border-gray-900/5 flex justify-center bg-gray-100 flex item-center text-center">
-                    <button id="decrement" class="text-2xl focus:outline-none font-bold">-</button>
+                  <div id="decrement" class="p-1 text-2xl font-bold pb-1.5 p-1 rounded-md border border-gray-900/5 flex justify-center bg-gray-100 flex item-center text-center">
+                    -
                   </div>
                 </div>
                 <div class="col-span-8">
@@ -139,8 +139,8 @@
                   </div>
                 </div>
                 <div class="col-span-2">
-                  <div class="p-1 rounded-md border border-gray-900/5 flex justify-center bg-gray-100 flex item-center text-center">
-                    <button id="increment" class="text-2xl focus:outline-none font-bold">+</button>
+                  <div class="p-1 text-2xl pb-1.5 font-bold rounded-md border border-gray-900/5 flex justify-center bg-gray-100 flex item-center text-center" id="increment">
+                    +
                   </div>
                 </div>
               </div>
@@ -185,13 +185,19 @@
                 <input
                   class="w-full ml-2 px-4 py-2 border border-gray-300 rounded focus:outline-blue-500"
                   type="text"
+                  placeholder="Enter your UPI (xxx@Bankname)"
                 />
                 <i class="fas fa-check-circle text-green-500 ml-2"> </i>
               </div>
             </div>
+            <div class="">
+              <label class="block text-gray-600 px-4 py-2">VERIFY UPI</label>
+              <p class="bg-gray-100 text-sm h-[400px]"></p>
+          
+            </div>
           </div>
         </div>
-        <div class="fixed-bottom-button">
+        <div class="fixed-bottom-button bg-white">
           <div class="flex justify-between px-4 py-2">
             <div class="flex">Total Payable amount <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-3 w-3 mx-3 my-2">
               <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -201,11 +207,12 @@
           </div>
           <button
             type="button"
-            class="rounded-md bg-blue-800 py-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 mb-10 focus:outline-none mx-4 w-[90%]"
+            class="rounded-md bg-blue-800 py-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-700  focus:outline-none mx-4 w-[90%]"
             id="applyButton"
           >
             Apply For IPO
           </button>
+          <div class="py-2 flex justify-center text-gray-500 text-sm">By applying, you accept the <span class="text-blue-500 px-2">Terms and Conditions</span></div>
         </div>
       </div>
     </div>

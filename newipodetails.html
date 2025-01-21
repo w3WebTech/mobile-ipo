@@ -198,6 +198,23 @@
                     </svg>
                   </div>
                 </div>
+                     <div class="flex gap-x-2 text-sm px-3">
+                    <span
+                      id="retailButton"
+                      class="my-2 inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 cursor-pointer"
+                      >Retail</span
+                    >
+                    <span
+                      id="hniButton"
+                      class="my-2 inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-medium text-black-700 ring-1 ring-inset ring-gray-400/10 cursor-pointer"
+                      >HNI</span
+                    >
+                    <span
+                      id="employeeButton"
+                      class="my-2 inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-medium text-black-700 ring-1 ring-inset ring-gray-400/10 cursor-pointer"
+                      >Employee</span
+                    >
+                  </div>
                 <div
                   class="px-3 flex gap-x-2"
                   id="investorTypesContainer"
@@ -273,7 +290,7 @@
                   </div>
                   <div>
                     <div
-                      class="rounded-md bg-red-50 flex justify-center px-2 py-3 text-xs font-bold text-red-700 ring-1 ring-inset ring-red-600/10"
+                      class="rounded-md bg-red-50 flex justify-center px-2 py-2 text-xs font-bold text-red-700 ring-1 ring-inset ring-red-600/10"
                       id="biddingStatus"
                     >
                       <svg
@@ -600,14 +617,14 @@
       function displayIpoDetails() {
     const ipoDetails = getQueryParams();
     document.getElementById("companyName").innerText = ipoDetails.name;
-    document.getElementById("bidPrice").innerText = `${ipoDetails.bidPriceMin} - ${ipoDetails.bidPriceMax}`;
+    document.getElementById("bidPrice").innerText = ` ₹${ipoDetails.bidPriceMin}.00 -  ₹${ipoDetails.bidPriceMax}.00`;
     document.getElementById("lotSize").innerText = `${ipoDetails.lotSize} Shares`;
     document.getElementById("retailDiscount").innerText = `${ipoDetails.retailDiscount}`;
-    document.getElementById("issueSize").innerText = `${ipoDetails.issueSize}`;
+    document.getElementById("issueSize").innerText = ` ₹${ipoDetails.issueSize}.00`;
     document.getElementById("offerType").innerText = ipoDetails.offerType;
     document.getElementById("ipoType").innerText = ipoDetails.ipoType;
-    document.getElementById("minimumInvestment").innerText = `${ipoDetails.minimumInvestment}`;
-    document.getElementById("maximumInvestment").innerText = `${ipoDetails.maximumInvestment}`;
+    document.getElementById("minimumInvestment").innerText = ` ₹${ipoDetails.minimumInvestment}.00`;
+    document.getElementById("maximumInvestment").innerText = ` ₹${ipoDetails.maximumInvestment}.00`;
     document.getElementById("overallSubscriptions").innerText = ipoDetails.overallSubscriptions;
 
     // Set the content for About the Company and Object of the Issue

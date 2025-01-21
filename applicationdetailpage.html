@@ -199,6 +199,7 @@
                     class="flex items-center gap-x-2 border-gray-900/5 py-2 px-3"
                   >
                     <div>Investor Type</div>
+
                     <div>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -215,6 +216,23 @@
                         />
                       </svg>
                     </div>
+                  </div>
+                  <div class="flex gap-x-2 text-sm px-3">
+                    <span
+                      id="retailButton"
+                      class="my-2 inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 cursor-pointer"
+                      >Retail</span
+                    >
+                    <span
+                      id="hniButton"
+                      class="my-2 inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-medium text-black-700 ring-1 ring-inset ring-gray-400/10 cursor-pointer"
+                      >HNI</span
+                    >
+                    <span
+                      id="employeeButton"
+                      class="my-2 inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-medium text-black-700 ring-1 ring-inset ring-gray-400/10 cursor-pointer"
+                      >Employee</span
+                    >
                   </div>
                   <div
                     class="px-3 flex gap-x-2"
@@ -297,7 +315,7 @@
                     </div>
                     <div>
                       <div
-                        class="rounded-md bg-red-50 flex justify-center px-2 py-3 text-xs font-bold text-red-700 ring-1 ring-inset ring-red-600/10"
+                        class="rounded-md bg-red-50 flex justify-center px-2 py-2 text-xs font-bold text-red-700 ring-1 ring-inset ring-red-600/10"
                         id="biddingStatus"
                       >
                         <svg
@@ -313,7 +331,7 @@
                             d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                           />
                         </svg>
-                        <span class="py-1 px-2 text-sm"
+                        <span class="py- px-2 text-sm"
                           >Bidding closes in 0 days</span
                         >
                       </div>
@@ -627,27 +645,39 @@
       }
       function displayIpoDetails() {
         const ipoDetails = getQueryParams();
+        console.log(ipoDetails, "ipoDetails");
         document.getElementById("companyName").innerText = ipoDetails.name;
         document.getElementById(
           "bidPrice"
-        ).innerText = `${ipoDetails.bidPriceMax}`;
+        ).innerText = `₹ ${ipoDetails.bidPriceMax}.00`;
         document.getElementById(
           "lotSize"
         ).innerText = `${ipoDetails.lotSize} Shares`;
         document.getElementById(
           "retailDiscount"
-        ).innerText = `${ipoDetails.retailDiscount}`;
-        document.getElementById(
-          "issueSize"
-        ).innerText = `${ipoDetails.issueSize}`;
-        document.getElementById("offerType").innerText = ipoDetails.offerType;
-        document.getElementById("ipoType").innerText = ipoDetails.ipoType;
-        document.getElementById(
-          "minimumInvestment"
-        ).innerText = `${ipoDetails.minimumInvestment}`;
-        document.getElementById(
-          "maximumInvestment"
-        ).innerText = `${ipoDetails.maximumInvestment}`;
+        ).innerText = `₹ ${ipoDetails.retailDiscount}.00`;
+        if (ipoDetails.issueSize) {
+          document.getElementById(
+            "issueSize"
+          ).innerText = `${ipoDetails.issueSize}`;
+        } else {
+          document.getElementById("issueSize").innerText = "N/A"; // or any default value
+        }
+
+        document.getElementById("offerType").innerText = ipoDetails.offerType
+          ? ipoDetails.offerType
+          : "Mainboard";
+        document.getElementById("ipoType").innerText = ipoDetails.ipoType
+          ? ipoDetails.ipoType
+          : "Book Building";
+        document.getElementById("minimumInvestment").innerText =
+          ipoDetails.minimumInvestment
+            ? `${ipoDetails.minimumInvestment}`
+            : `${Number(ipoDetails.lotSize) * Number(ipoDetails.maxPrice)}`;
+        document.getElementById("maximumInvestment").innerText =
+          ipoDetails.maximumInvestment
+            ? `${ipoDetails.maximumInvestment}`
+            : `₹ ${ipoDetails.lotSize* ipoDetails.maxPrice}`;
         document.getElementById("overallSubscriptions").innerText =
           ipoDetails.overallSubscriptions;
 
@@ -813,5 +843,4 @@
       displayIpoDetails();
     </script>
   </body>
-  
 </html>
