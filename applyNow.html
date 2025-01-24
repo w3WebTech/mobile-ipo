@@ -19,7 +19,7 @@
       .fixed-bottom-button {
         position: fixed;
         bottom: 0;
-        left: 0;
+        /* left: 0; */
         width: 100%;
         z-index: 50;
       }
@@ -30,7 +30,7 @@
     <div class="overflow-hidden min-h-screen">
       <!-- Header Section -->
       <div
-        class="block md:hidden bg-blue-600 sm:relative sm:h-[80px] overflow-hidden"
+        class="block max-w-4xl mx-auto bg-blue-600 sm:relative sm:h-[80px] overflow-hidden"
       >
         <div class="flex justify-center items-center text-center">
           <div class="w-screen">
@@ -38,7 +38,7 @@
               <nav class="absolute top-2 w-full">
                 <div class="grid grid-cols-12 my-4">
                   <div
-                    class="col-span-2 flex justify-center items-center clickable-div"
+                    class="col-span-2 flex justify-start px-5  items-center clickable-div"
                     id="navigateToNewIpo"
                     data-target="newipo.html"
                   >
@@ -61,7 +61,7 @@
                   >
                     IPO's
                   </div>
-                  <div class="col-span-2 flex justify-center items-center">
+                  <div class="col-span-2 flex justify-end px-5 items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -91,7 +91,7 @@
         <div class="rounded-md border mt-5 bg-white shadow-lg w-full max-w-4xl">
           <!-- IPO Information -->
           <div>
-            <div class="flex justify-between py-6 px-3 font-bold text-xl">
+            <div class="flex justify-between py-3 px-3 font-bold text-xl">
               <div class="flex justify-between">
                 <div>
                   <div class="flex">
@@ -149,7 +149,7 @@
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
                       stroke="currentColor"
-                      class="h-8 w-8"
+                      class="h-8 w-8 py-2"
                     >
                       <path
                         stroke-linecap="round"
@@ -163,7 +163,7 @@
                   <div
                     class="p-2 rounded-md border border-gray-900/5 flex justify-center"
                   >
-                    <span id="lotCount">0</span>
+                    <span id="lotCount">1</span>
                   </div>
                 </div>
                 <div class="col-span-2">
@@ -177,7 +177,7 @@
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
                       stroke="currentColor"
-                      class="h-8 w-8"
+                      class="h-8 w-8 py-2"
                     >
                       <path
                         stroke-linecap="round"
@@ -245,7 +245,7 @@
             </div>
           </div>
         </div>
-        <div class="fixed-bottom-button bg-white">
+        <div class="fixed-bottom-button bg-white max-w-4xl mx-auto">
           <div class="flex justify-between px-4 py-2">
             <div class="flex">
               Total Payable amount
@@ -270,7 +270,7 @@
           </div>
           <button
             type="button"
-            class="rounded-md bg-blue-800 py-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none mx-4 w-[90%]"
+            class="rounded-md bg-blue-800 py-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none mx-4 w-[90%] md:w-[95%]"
             id="applyButton"
           >
             Apply For IPO
@@ -330,17 +330,17 @@
       document.getElementById("bidPrice").value = bidPrice;
 
       const lotCountDisplay = document.getElementById("lotCount");
-      let lotCount = 0;
+      let lotCount = 1;
       
       document.getElementById("totalAmount").innerText = `₹ ${
-        lotCount * bidPrice
+        (lotCount * 10) * bidPrice
       }`;
 
       const incrementButton = document.getElementById("increment");
       const decrementButton = document.getElementById("decrement");
 
       function updateTotalAmount() {
-        const totalAmount = lotCount * bidPrice;
+        const totalAmount = (lotCount * 10) * bidPrice
         document.getElementById(
           "totalAmount"
         ).innerText = `₹ ${totalAmount.toFixed(2)}`;
