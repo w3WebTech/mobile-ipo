@@ -67,15 +67,24 @@
         }
 
         .tab-titles:before {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50%; 
-            height: 2px;
-            background-color: rgb(4, 65, 197);
-            transition: left 0.3s ease-in-out;
-        }
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 20%; 
+    transform: translateX(-50%); /* Center the indicator *//* Default width for larger screens */
+    height: 2px;
+    background-color: rgb(4, 65, 197);
+    transition: left 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) { /* Adjust for medium devices */
+    .tab-titles:before {
+        left: 0;
+        transform: translateX(-0%);
+        width: 50%; /* Reduced width for medium devices */
+    }
+}
 
         #tab1:checked ~ .tab-titles:before {
             left: 0%;
@@ -99,7 +108,7 @@
 </head>
 
 <body>
-    <div class="block bg-blue-600 relative h-[100px] max-w-4xl mx-auto">
+    <div class="md:hidden block bg-blue-600 relative h-[100px] max-w-4xl mx-auto">
         <div class="flex justify-center items-center text-center">
             <div class="w-screen">
                 <div class="mx-auto my-4 mb-20 rounded-md text-white font-bold">
@@ -126,7 +135,7 @@
     </div>
 
     <div class="flex justify-center items-center absolute top-12 left-0 right-0">
-        <div class="rounded-md border mt-5 bg-white shadow-lg w-full max-w-4xl min-h-screen">
+        <div class="rounded-md border mt-5 bg-white shadow-lg w-full max-w-4xl md:max-w-none  min-h-screen">
             <div class="tabs px-3 py-3">
                 <input type="radio" id="tab1" name="tab" checked />
                 <input type="radio" id="tab2" name="tab" />
