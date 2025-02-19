@@ -213,7 +213,7 @@
                 const symbol = urlParams.get("ipoSymbol") || "DENTA"; // Default value
                 const upiId = urlParams.get("upiId") || ""; // Get UPI ID from URL
 
-                const response = await fetch(`https://ipo.gwcindia.in/v3/api-ipo-info.php?isin=${isin}&symbol=${symbol}`);
+                const response = await fetch(`https://ipo.gwcindia.in/nse-api/api-ipo-info.php?isin=${isin}&symbol=${symbol}`);
                 const data = await response.json();
                 if (data) {
                     document.getElementById("companyName").textContent = data.ipoName || "N/A";
@@ -394,7 +394,7 @@
                 formData.append("price", price);
                 formData.append("cutOff", cutOff);
 
-                fetch("https://ipo.gwcindia.in/v3/api-apply-ipo.php", {
+                fetch("https://ipo.gwcindia.in/nse-api/api-apply-ipo.php", {
                     method: "POST",
                     headers: {
                         Cookie: "PHPSESSID=f84t4fg8ir4sa2eagd3pp1k3g7",
