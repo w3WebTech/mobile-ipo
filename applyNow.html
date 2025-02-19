@@ -95,7 +95,7 @@
                         </div>
                     </div>
                     <div class="bg-gray-100 h-2"></div>
-                    <div class="px-5 py-2 flex justify-between">
+                    <div class="px-5 py-2 ">
                         <div>
                         <div class="flex items-center gap-x-2 border-gray-900/5">
                             <div class="text-gray-600">Investor Type</div>
@@ -104,14 +104,17 @@
 
                     </div>
 
-                        <div class="text-gray-600">
+                        <!-- <div class="text-gray-600">
                             Maximum lots:
                             <span id="lotSize" class="text-gray-600">Loading...</span>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="flex justify-start px-5 py-2">
+                    <div class="flex justify-between px-5 py-2">
                         <div class="text-gray-600">Number of lots</div>
-                     
+                        <div class="text-gray-600">
+                            Maximum lots:
+                            <span id="lotSize" class="rounded-sm bg-indigo-50 px-1 py-0.5 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">Loading...</span>
+                        </div>
                     </div>
                     <div class="px-5">
                         <div class="grid grid-cols-12 gap-x-2">
@@ -264,24 +267,57 @@
                                 maxUpiLimit: setting.maxUpiLimit,
                             });
 
-                            // Create a button for each investor type
-                            const investorTypeButton = document.createElement("button");
-                            investorTypeButton.textContent = setting.caCode; // Use caCode for button text
-                            investorTypeButton.className = "my-1 inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 cursor-pointer mr-2 focus:outline-blue-700";
-                            investorTypeButton.dataset.investorType = setting.caCode; // Store the investor type in data attribute
-                            investorTypeButton.dataset.minValue = setting.maxUpiLimit;
+                        // Create a button for each investor type
+                      // Create a container for investor type buttons
+const investorTypeContainer = document.getElementById("investorTypeContainer");
+investorTypeContainer.innerHTML = ""; // Clear previous buttons
 
-                            // Add click event listener to the button
-                            investorTypeButton.addEventListener("click", () => {
-                                // Handle the click event for the investor type button
-                                selectedInvestorType = investorTypeButton.dataset.investorType; // Set the selected investor type
-                                selectedMinValue = parseFloat(investorTypeButton.dataset.minValue); // Get the corresponding minValue
-                                console.log(selectedMinValue, "selectedMinValue");
-                                updateMaxLots(); // Update the maximum lots based on the selected investor type
-                            });
+// Filter and display UPI information
+data.subCategorySettings.forEach((setting, index) => {
+    if (setting.allowUpi) {
+        const listItem = document.createElement("li");
+        listItem.textContent = `${setting.caCode}: Max UPI Limit ₹${setting.maxUpiLimit}`;
+        upiList.appendChild(listItem);
 
-                            // Append the button to the investor type container
-                            investorTypeContainer.appendChild(investorTypeButton);
+        // Create a button for each investor type
+        const investorTypeButton = document.createElement("button");
+        investorTypeButton.textContent = setting.caCode; // Use caCode for button text
+        investorTypeButton.className = "my-1 inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 cursor-pointer mr-2 focus:outline-blue-700";
+        investorTypeButton.dataset.investorType = setting.caCode; // Store the investor type in data attribute
+        investorTypeButton.dataset.minValue = setting.maxUpiLimit;
+
+        // Add click event listener to the button
+        investorTypeButton.addEventListener("click", () => {
+            // Handle the click event for the investor type button
+            selectedInvestorType = investorTypeButton.dataset.investorType; // Set the selected investor type
+            selectedMinValue = parseFloat(investorTypeButton.dataset.minValue); // Get the corresponding minValue
+            console.log(selectedMinValue, "selectedMinValue");
+            updateMaxLots(); // Update the maximum lots based on the selected investor type
+
+            // Remove active class from all buttons
+            const allInvestorTypeButtons = document.querySelectorAll("#investorTypeContainer button");
+            allInvestorTypeButtons.forEach(button => {
+                button.classList.remove("border-blue-500"); // Remove blue border class
+                button.classList.add("bg-white"); // Reset background color
+            });
+
+            // Add active class to the selected button
+            investorTypeButton.classList.add("border-blue-500"); // Add blue border class
+            investorTypeButton.classList.remove("bg-white"); // Change background color if needed
+        });
+
+        // Append the button to the investor type container
+        investorTypeContainer.appendChild(investorTypeButton);
+
+        // Set the first investor type as selected
+        if (index === 0) {
+            selectedInvestorType = setting.caCode; // Set the first investor type as selected
+            selectedMinValue = parseFloat(setting.maxUpiLimit); // Set the corresponding minValue
+            investorTypeButton.classList.add("border-blue-500"); // Add blue border class to the first button
+            investorTypeButton.classList.remove("bg-white"); // Change background color if needed
+        }
+    }
+});
                         }
                     });
 
