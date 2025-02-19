@@ -72,6 +72,70 @@
       #tab2:checked ~ .tab-titles:before {
         left: 50%;
       }
+      .stepper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding: 10px;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .step.active {
+            opacity: 1;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 50%;
+            background-color: #ccc;
+            color: #fff;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+
+        .step-label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Bar between steps */
+        .step::after {
+            content: '';
+            position: absolute;
+            top: 15px; /* Adjust this to align with the middle of the step number */
+            left: 50%; /* Start from the middle of the current step */
+            width: 100%; /* Span the entire width to the next step */
+            height: 2px;
+            background-color: #ccc;
+            z-index: -1;
+        }
+
+        /* Remove the bar after the last step */
+        .step:last-child::after {
+            display: none;
+        }
+
+        .step.active::after,
+        .step.active ~ .step::after {
+            background-color: #4CAF50; /* Green color for completed steps */
+        }
+        .separator {
+    width: 100px;
+    height: 2px; /* Adjust the height as needed */
+    background-color: #e0e0e0; /* Light gray color */
+    margin: 0 auto; /* Center the separator */
+}
     </style>
   </head>
 
@@ -176,11 +240,8 @@
         <!-- <div class="bg-gray-100 h-2"></div> px-3 py-2 pt-4-->
         <div class="">
           <div class="flex px-3 py-2 pt-4">
-            <img
-              src="images/company.png"
-              alt="Tuple"
-              class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10"
-            />
+            <div class="size-12 flex items-center text-center justify-center  mt-4  px-2 font-semibold rounded-lg bg-white object-cover ring-1 ring-gray-900/10 ">IPO</div>
+        
             <div>
               <div class="text-xl font-bold text-gray-900 px-4 py-2" id="companyName">
                 Company Name
@@ -656,6 +717,8 @@
           importantDates: JSON.parse(params.get("importantDates")),
           isin: params.get("isin"),
           ipoSymbol: params.get("ipoSymbol"),
+          biddingStartDate: params.get("biddingStartDate"), // Ensure this is included
+          biddingEndDate: params.get("biddingEndDate"),
         };
       }
       function displayIpoDetails() {
@@ -805,19 +868,42 @@
         shareholdingPatternsContainer.innerHTML =
             "<tr><td colspan='3' class='text-center'>No shareholding patterns available.</td></tr>";
     }
-
-    // Display important dates
     const importantDatesContainer = document.getElementById("importantDatesContainer");
-    if (Array.isArray(ipoDetails.importantDates) && ipoDetails.importantDates.length > 0) {
-        importantDatesContainer.innerHTML = ipoDetails.importantDates
-            .map(date => `
-                <li class="py-2">${date}</li>
-            `)
-            .join("");
-    } else {
-        importantDatesContainer.innerHTML =
-            "<li>No important dates available.</li>";
-    }
+
+// Clear the container before adding new content
+importantDatesContainer.innerHTML = '';
+
+// Create an array to hold all important dates
+const importantDates = [];
+
+// Add bidding start and end dates to the array
+importantDates.push(`Start Date: ${ipoDetails.biddingStartDate || 'N/A'}`);
+importantDates.push(`End Date: ${ipoDetails.biddingEndDate || 'N/A'}`);
+
+// Check if there are additional important dates
+if (Array.isArray(ipoDetails.importantDates) && ipoDetails.importantDates.length > 0) {
+    importantDates.push(...ipoDetails.importantDates);
+}
+
+// Check if there are important dates to display
+if (importantDates.length > 0) {
+    importantDatesContainer.innerHTML = `
+  <div class="stepper border rounded-md ">
+    ${importantDates.map((date, index) => `
+        <div class="step ${index === 0 ? 'active' : ''}" data-step="${index + 1}">
+            <div class="step-number">${index + 1}</div>
+            <div class="step-label">${date}</div>
+        </div>
+        ${index < importantDates.length - 1 ? '<div class="separator"></div>' : ''}
+    `).join('')}
+</div>
+ 
+        
+    `;
+} else {
+    importantDatesContainer.innerHTML = "<li>No important dates available.</li>";
+}
+
 
     // Set report link
     document.getElementById("reportLink").setAttribute("href", ipoDetails.reportLink);
