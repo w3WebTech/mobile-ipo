@@ -187,9 +187,9 @@
               <h2 class="text-lg font-bold pt-4">
                 Open IPO's
                 <span
-                  class="mx-2 inline-flex items-center rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-medium text-white"
-                  >9</span
-                >
+                class="mx-2 inline-flex items-center rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-medium text-white" 
+                id="countSpan"
+              >9</span>
               </h2>
               <div class="mx-auto">
                 <div class="my-2" id="shimmer">
@@ -386,7 +386,8 @@
         const companiesContainer =
           document.getElementById("companiesContainer");
         companiesContainer.innerHTML = ""; // Clear previous content
-
+        let nseCount = 0; // Initialize NSE count
+        let bseCount = 0;
         // Fetch from the existing API
         fetch(apiUrl)
           .then((response) => response.json())
@@ -396,6 +397,7 @@
             // Handle Open IPOs
             if (Array.isArray(data.open)) {
               data.open.forEach((company) => {
+                nseCount += data.open.length;
                 addCompanyToContainer(
                   company,
                   companiesContainer,
@@ -412,6 +414,7 @@
             // Handle Upcoming IPOs
             if (Array.isArray(data.upcoming)) {
               data.upcoming.forEach((company) => {
+                nseCount += data.upcoming.length;
                 addCompanyToContainer(
                   company,
                   companiesContainer,
@@ -438,6 +441,7 @@
             // Handle Open IPOs from BSE API
             if (Array.isArray(data.metaData.open)) {
               data.metaData.open.forEach((company) => {
+                bseCount += data.metaData.open.length;
                 addCompanyToContainer(
                   company,
                   companiesContainer,
@@ -454,6 +458,7 @@
             // Handle Upcoming IPOs from BSE API
             if (Array.isArray(data.metaData.upcoming)) {
               data.metaData.upcoming.forEach((company) => {
+                bseCount += data.upcoming.open.length;
                 addCompanyToContainer(
                   company,
                   companiesContainer,
@@ -466,6 +471,7 @@
                 "The BSE API response does not contain an array of upcoming companies."
               );
             }
+            updateIpoCount(nseCount, bseCount);
           })
           .catch((error) => {
             console.error("Error fetching companies from BSE API:", error);
@@ -542,7 +548,11 @@
         container.appendChild(companyDiv);
       }
       fetchCompanies();
-
+      function updateIpoCount(nseCount, bseCount) {
+    const totalCount = nseCount + bseCount; // Calculate total count
+    const countSpan = document.getElementById('countSpan'); // Select the span by ID
+    countSpan.textContent = totalCount; // Update the span with the total count
+}
       const clientInfoUrl =
         "https://ipo.gwcindia.in/nse-api/api-client-info.php?clientCode=GZ10219";
       function fetchClientInfo() {
