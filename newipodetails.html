@@ -876,9 +876,26 @@ importantDatesContainer.innerHTML = '';
 // Create an array to hold all important dates
 const importantDates = [];
 
-// Add bidding start and end dates to the array
-importantDates.push(`Start Date: ${ipoDetails.biddingStartDate || 'N/A'}`);
-importantDates.push(`End Date: ${ipoDetails.biddingEndDate || 'N/A'}`);
+// Helper function to format date
+const formatDate = (dateString) => {
+  if (!dateString) return 'N/A';
+  
+  const date = new Date(dateString);
+  return date.toLocaleString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  }).replace(',', ''); // Removing comma between date and time
+};
+
+// Add bidding start and end dates with line breaks to the array
+importantDates.push(`Start Date: <br/>${formatDate(ipoDetails.biddingStartDate)}`);
+importantDates.push(`End Date: <br/>${formatDate(ipoDetails.biddingEndDate)}`);
+
+
 
 // Check if there are additional important dates
 if (Array.isArray(ipoDetails.importantDates) && ipoDetails.importantDates.length > 0) {

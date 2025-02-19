@@ -95,18 +95,20 @@
                         </div>
                     </div>
                     <div class="bg-gray-100 h-2"></div>
-                    <div class="px-5 py-2">
-                        <div class="flex items-center gap-x-2 border-gray-900/5">
+                    <div class="px-5 py-2 flex justify-between">
+                        <div><div class="flex items-center gap-x-2 border-gray-900/5">
                             <div class="text-gray-600">Investor Type</div>
                         </div>
-                        <div id="investorTypeContainer" class="flex flex-col"></div> <!-- Container for investor type buttons -->
-                    </div>
-                    <div class="flex justify-between px-5 py-2">
-                        <div class="text-gray-600">Number of lots</div>
+                        <div id="investorTypeContainer" class="flex flex-col"></div> </div>
                         <div class="text-gray-600">
                             Maximum lots:
                             <span id="lotSize" class="text-gray-600">Loading...</span>
                         </div>
+                        <!-- Container for investor type buttons -->
+                    </div>
+                    <div class="flex justify-start px-5 py-2">
+                        <div class="text-gray-600">Number of lots</div>
+                   
                     </div>
                     <div class="px-5">
                         <div class="grid grid-cols-12 gap-x-2">
@@ -131,6 +133,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="px-5 py-2  text-gray-600 lotsizeget text-sm flex justify-start" ></div>
                     <div class="px-5">
                         <div class="text-gray-600 py-2">Bid price</div>
                         <input type="number" id="bidPrice" class="px-4 py-2 rounded-md border border-gray-900/5 w-full focus:outline-blue-500" />
@@ -155,8 +158,8 @@
                         </div>
                     </div>
                     <div class="">
-                        <label class="block text-gray-600 px-5 py-2">VERIFY UPI</label>
-                        <p class="bg-gray-100 text-sm h-[400px]"></p>
+                        <label class="block text-gray-600 px-5 py-2"></label>
+                        <p class="bg-white text-sm h-[400px]"></p>
                     </div>
 
                     <!-- UPI Information Section -->
@@ -221,8 +224,8 @@
                     const lotSize = parseInt(data.lotSize) || 0; // Set lotSize and ensure it's a number
                     lotmain = parseInt(data.lotSize) || 0;
                     document.getElementById("lotSize").textContent = lotSize || "N/A";
-                    document.getElementById("bidPrice").value = data.minPrice || 0; // Set default bid price
-
+                    document.getElementById("bidPrice").value = data.maxPrice || 0; // Set default bid price
+                    document.querySelector('.lotsizeget').innerHTML = `Note : 1 lot = ${parseInt(data.lotSize)} shares`;
                     // Set the UPI ID in the input field
                     const upiInput = document.querySelector('input[placeholder="Enter your UPI (xxx@Bankname)"]');
                     if (upiInput) {
