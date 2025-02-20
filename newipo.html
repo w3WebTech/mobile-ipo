@@ -437,7 +437,7 @@
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            debugger;
+               
             // Handle Open IPOs from BSE API
             if (Array.isArray(data.metaData.open)) {
               data.metaData.open.forEach((company) => {
@@ -490,7 +490,7 @@
         );
 
         companyDiv.addEventListener("click", function () {
-          debugger
+             
           sendDataToNewPage(company, "newipodetails.html"); 
         });
 
