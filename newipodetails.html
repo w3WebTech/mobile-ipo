@@ -691,39 +691,47 @@
       //   }
 
       //   showTab("strengths");
-
-      function getQueryParams() {
-        const params = new URLSearchParams(window.location.search);
-        return {
-          name: params.get("name"),
-          closingDate: params.get("closingDate"),
-          minimumInvestment: params.get("minPrice"),
-          overallSubscriptions: params.get("overallSubscriptions"),
-          bidPriceMin: params.get("minPrice"),
-          bidPriceMax: params.get("maxPrice"),
-          lotSize: params.get("lotSize"),
-          retailDiscount: params.get("cutOffPrice"),
-          issueSize: params.get("issueSize"),
-          offerType: params.get("subType"),
-          ipoType: params.get("issueType"),
-          maximumInvestment: params.get("maxPrice"),
-          biddingClosesIn: params.get("biddingClosesIn"),
-          strengths: JSON.parse(params.get("strengths")),
-          risks: JSON.parse(params.get("risks")),
-          reportLink: params.get("reportLink"),
-          aboutCompany: params.get("aboutCompany"),
-          objectOfIssue: params.get("objectOfIssue"),
-          shareholdingPatterns: JSON.parse(params.get("shareholdingPatterns")),
-          importantDates: JSON.parse(params.get("importantDates")),
-          isin: params.get("isin"),
-          ipoSymbol: params.get("ipoSymbol"),
-          biddingStartDate: params.get("biddingStartDate"), // Ensure this is included
-          biddingEndDate: params.get("biddingEndDate"),
-          subCategorySettings: JSON.parse(decodeURIComponent(params.get("subCategorySettings")))
-        };
-      }
+function getQueryParams() {
+   
+    const params = new URLSearchParams(window.location.search);
+    return {
+        name: params.get("name"),
+        closingDate: params.get("closingDate"),
+        minimumInvestment: params.get("minPrice"),
+        overallSubscriptions: params.get("overallSubscriptions"),
+        bidPriceMin: params.get("minPrice"),
+        bidPriceMax: params.get("maxPrice"),
+        lotSize: params.get("lotSize"),
+        retailDiscount: params.get("cutOffPrice"),
+        issueSize: params.get("issueSize"),
+        offerType: params.get("subType"),
+        ipoType: params.get("issueType"),
+        maximumInvestment: params.get("maxPrice"),
+        biddingClosesIn: params.get("biddingClosesIn"),
+        strengths: JSON.parse(params.get("strengths") || "[]"), // Default to empty array
+        risks: JSON.parse(params.get("risks") || "[]"), // Default to empty array
+        reportLink: params.get("reportLink"),
+        aboutCompany: params.get("aboutCompany"),
+        objectOfIssue: params.get("objectOfIssue"),
+        shareholdingPatterns: JSON.parse(params.get("shareholdingPatterns") || "[]"), // Default to empty array
+        importantDates: JSON.parse(params.get("importantDates") || "[]"), // Default to empty array
+        isin: params.get("isin"),
+        ipoSymbol: params.get("ipoSymbol"),
+        biddingStartDate: params.get("biddingStartDate"),
+        biddingEndDate: params.get("biddingEndDate"),
+        subCategorySettings: (() => {
+            const subCategorySettingsParam = params.get("subCategorySettings");
+            // Check if the parameter is "undefined" or null
+            if (subCategorySettingsParam === "undefined" || subCategorySettingsParam === null) {
+                return null; // Return null if the parameter is "undefined" or not present
+            }
+            return JSON.parse(decodeURIComponent(subCategorySettingsParam)); // Otherwise, parse it
+        })(),
+    };
+}
       
       function displayIpoDetails() {
+         
     const ipoDetails = getQueryParams();
     console.log(ipoDetails, "ipoDetails");
     console.log(ipoDetails.subCategorySettings,"subCategorySettings")
