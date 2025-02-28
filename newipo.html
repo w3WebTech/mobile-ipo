@@ -490,8 +490,8 @@
         );
 
         companyDiv.addEventListener("click", function () {
-             
-          sendDataToNewPage(company, "newipodetails.html"); 
+         
+          sendDataToNewPage(company, "newipodetails.html",source); 
         });
 
         companyDiv.innerHTML = `
@@ -699,12 +699,13 @@
           });
       }
 
-      function sendDataToNewPage(company, url) {
+      function sendDataToNewPage(company, url,source) {
         const encodedSubCategorySettings = encodeURIComponent(
         JSON.stringify(company.subCategorySettings)
     );
-
+    debugger
         const queryParams = new URLSearchParams({
+         
           name: company.ipoName ? company.ipoName : company.companyName ,
           biddingStartDate: company.biddingStartDate ? company.biddingStartDate : company.opendate,
           biddingEndDate: company.biddingEndDate ? company.biddingEndDate : company.closedate,
@@ -726,7 +727,8 @@
           ipoSymbol: company.ipoSymbol || company.symbol,
           upiId: company.upiId || "",
           applicationNo: company.applicationNo || "",
-          subCategorySettings: encodedSubCategorySettings
+          subCategorySettings: encodedSubCategorySettings,
+          isCompanyFrom: source 
 
         }).toString();
 
