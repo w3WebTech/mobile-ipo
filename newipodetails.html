@@ -719,6 +719,7 @@ function getQueryParams() {
         ipoSymbol: params.get("ipoSymbol"),
         biddingStartDate: params.get("biddingStartDate"),
         biddingEndDate: params.get("biddingEndDate"),
+        source:params.get("isCompanyFrom"),
         subCategorySettings: (() => {
             const subCategorySettingsParam = params.get("subCategorySettings");
             // Check if the parameter is "undefined" or null
@@ -727,6 +728,7 @@ function getQueryParams() {
             }
             return JSON.parse(decodeURIComponent(subCategorySettingsParam)); // Otherwise, parse it
         })(),
+       
     };
 }
       
@@ -994,6 +996,7 @@ document
             importantDates: JSON.stringify(ipoDetails.importantDates),
             isin: ipoDetails.isin,
             ipoSymbol: ipoDetails.ipoSymbol,
+            source:ipoDetails.source,
           });
 
           // Redirect to applyNow.html with parameters
