@@ -337,8 +337,158 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         let lotmain;
+        function getQueryParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    name: params.get("name"),
+    closingDate: params.get("closingDate"),
+    minimumInvestment: params.get("minPrice"),
+    overallSubscriptions: params.get("overallSubscriptions"),
+    bidPriceMin: params.get("minPrice"),
+    bidPriceMax: params.get("maxPrice"),
+    lotSize: params.get("lotSize"),
+    retailDiscount: params.get("cutOffPrice"),
+    issueSize: params.get("issueSize"),
+    offerType: params.get("subType"),
+    ipoType: params.get("issueType"),
+    maximumInvestment: params.get("maxPrice"),
+    biddingClosesIn: params.get("biddingClosesIn"),
+    strengths: JSON.parse(params.get("strengths") || "[]"), // Default to empty array
+    risks: JSON.parse(params.get("risks") || "[]"), // Default to empty array
+    reportLink: params.get("reportLink"),
+    aboutCompany: params.get("aboutCompany"),
+    objectOfIssue: params.get("objectOfIssue"),
+    shareholdingPatterns: JSON.parse(params.get("shareholdingPatterns") || "[]"), // Default to empty array
+    importantDates: JSON.parse(params.get("importantDates") || "[]"), // Default to empty array
+    isin: params.get("isin"),
+    ipoSymbol: params.get("ipoSymbol"),
+    biddingStartDate: params.get("biddingStartDate"), // Ensure this is included
+    biddingEndDate: params.get("biddingEndDate"),
+    subCategorySettings: JSON.parse(decodeURIComponent(params.get("subCategorySettings")) || "null"), // Handle undefined
+    source: params.get("source") // Get the source parameter
+  };
+}
 
+// ...
+
+function displayIpoDetails() {
+  const ipoDetails = getQueryParams();
+  console.log(ipoDetails, "ipoDetails");
+
+debugger
+if (ipoDetails.source === "BSE") {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isin = urlParams.get("isin") || "INE0R4L01018"; // Default value
+    const upiId = urlParams.get("upiId") || "";
+
+    // Call the BSE API
+    fetch(`https://ipo.gwcindia.in/api/bse/v1/ipolist/${isin}`, {
+        method: "GET",
+        headers: {
+            Authorization: "21279C8DC0753CD1A90DEBF3C1C5CEDB8B5B77E0455EE804C9CA03BB706CD02A",
+            Cookie: "PHPSESSID=86ikmrbq26d8cv7lbqr7r1q07u"
+        },
+      
+    })
+    .then((response) => response.json())
+    .then((data) => {
+  console.log(data.metaData[isin], "test");
+  if (data.metaData[isin]) {
+    document.getElementById("companyName").textContent = data.metaData[isin].companyName || "N/A";
+    document.getElementById("priceRange").textContent = `₹ ${data.metaData[isin].floorprice} - ₹ ${data.metaData[isin].ceilingprice}`;
+    const lotSize = parseInt(data.metaData[isin].tradinglot) || 0; // Set lotSize and ensure it's a number
+    lotmain = parseInt(data.metaData[isin].tradinglot) || 0;
+    document.getElementById("lotSize").textContent = lotSize || "N/A";
+    document.getElementById("bidPrice").value = data.metaData[isin].ceilingprice || 0; // Set default bid price
+
+    document.querySelector(".lotsizeget").innerHTML = `Note : 1 lot = ${parseInt(data.metaData[isin].tradinglot)} shares`;
+    
+    // Set the UPI ID in the input field
+    const upiInput = document.getElementById("upiIdInput");
+    if (upiInput) {
+      upiInput.value = upiId; // Set the UPI ID in the input field
+    }
+
+    // Update total amount initially
+    updateTotalAmount(lotSize);
+
+    // Clear previous UPI information
+    const upiList = document.getElementById("upiList");
+    upiList.innerHTML = ""; // Clear previous entries
+    const upiSettings = []; // Array to hold UPI settings
+
+    // Create a container for investor type buttons
+    const investorTypeContainer = document.getElementById("investorTypeContainer");
+    investorTypeContainer.innerHTML = ""; // Clear previous buttons
+
+    // Check if data.category is defined and is an array
+    if (Array.isArray(data.metaData[isin].category)) {
+      // Filter and display UPI information
+      data.metaData[isin].category.forEach((setting) => {
+        if (setting.asbanonasba == "1") {
+          const listItem = document.createElement("li");
+          listItem.textContent = `${setting.category}: Max UPI Limit ₹${setting.maxbidvalue}`;
+          upiList.appendChild(listItem);
+
+          // Store caCode and minValue in the upiSettings array
+          upiSettings.push({
+            caCode: setting.category,
+            maxUpiLimit: setting.maxbidvalue,
+          });
+
+          // Create a button for each investor type
+          const investorTypeButton = document.createElement("button");
+          investorTypeButton.textContent = setting.category; // Use caCode for button text
+          investorTypeButton.className = "my-1 inline-flex items-center border border-blue-500 rounded-md bg-white px-4 py-2 text-sm font-medium text-blue-700 cursor-pointer mr-2 focus:outline-blue-700";
+          investorTypeButton.dataset.investorType = setting.category; // Store the investor type in data attribute
+          investorTypeButton.dataset.minValue = setting.maxbidvalue;
+
+          // Add click event listener to the button
+          investorTypeButton.addEventListener("click", () => {
+            selectedInvestorType = investorTypeButton.dataset.investorType; // Set the selected investor type
+            selectedMinValue = parseFloat(investorTypeButton.dataset.minValue); // Get the corresponding minValue
+            updateMaxLots(); // Update the maximum lots based on the selected investor type
+
+            // Remove active class from all buttons
+            const allInvestorTypeButtons = document.querySelectorAll("#investorTypeContainer button");
+            allInvestorTypeButtons.forEach((button) => {
+              button.classList.remove("border-blue-500", "bg-blue-100"); // Remove blue border and background color
+              button.classList.add("bg-white"); // Reset background color
+            });
+
+            // Add active class to the selected button
+            investorTypeButton.classList.add("border-blue-500", "bg-blue-100"); // Add blue border and background color
+            investorTypeButton.classList.remove("bg-white"); // Change background color if needed
+          });
+
+          // Append the button to the investor type container
+          investorTypeContainer.appendChild(investorTypeButton);
+        }
+      });
+    } else {
+      console.warn("data.category is not an array or is undefined");
+    }
+
+    // Show investor type buttons if there are investor types with allowUpi
+    if (upiSettings.length > 0) {
+      investorTypeContainer.style.display = "block"; // Show the container
+      selectedMinValue = parseFloat(upiSettings[0].maxUpiLimit); // Set the initial selectedMinValue to the first investor type's minValue
+      updateMaxLots(); // Update the maximum lots based on the first investor type
+    } else {
+      investorTypeContainer.style.display = "none"; // Hide the container
+    }
+  }
+})
+    .catch((error) => {
+        console.error(error);
+    });
+} else {
+    // Call the fetchIpoInfo function
+    fetchIpoInfo();
+  }
+}
         const fetchIpoInfo = async () => {
+          debugger
           // Get parameters from the URL
           const urlParams = new URLSearchParams(window.location.search);
           const isin = urlParams.get("isin") || "INE0R4L01018"; // Default value
@@ -487,8 +637,7 @@
           }
         };
 
-        // Call the function to fetch IPO information
-        fetchIpoInfo();
+ 
 
         function showModal(title, message) {
           document.getElementById("modalTitle").textContent = title;
@@ -637,6 +786,8 @@
             const target = this.getAttribute("data-target");
             window.location.href = target; // Navigate to the new page
           });
+          displayIpoDetails();
+        
       });
     </script>
   </body>
