@@ -375,7 +375,7 @@ function displayIpoDetails() {
   const ipoDetails = getQueryParams();
   console.log(ipoDetails, "ipoDetails");
 
-debugger
+
 if (ipoDetails.source === "BSE") {
     const urlParams = new URLSearchParams(window.location.search);
     const isin = urlParams.get("isin") || "INE0R4L01018"; // Default value
@@ -488,7 +488,7 @@ if (ipoDetails.source === "BSE") {
   }
 }
         const fetchIpoInfo = async () => {
-          debugger
+       
           // Get parameters from the URL
           const urlParams = new URLSearchParams(window.location.search);
           const isin = urlParams.get("isin") || "INE0R4L01018"; // Default value
