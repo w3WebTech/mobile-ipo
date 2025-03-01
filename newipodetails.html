@@ -404,9 +404,7 @@
                             d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                           />
                         </svg>
-                        <span class="py-1 px-2 text-sm"
-                          >Bidding closes within today</span
-                        >
+                        <span class="py-1 px-2 text-sm" id="biddingMessage">Loading...</span>
                       </div>
                     </div>
                   </dl>
@@ -737,7 +735,7 @@ function getQueryParams() {
     const ipoDetails = getQueryParams();
     console.log(ipoDetails, "ipoDetails");
     console.log(ipoDetails.subCategorySettings,"subCategorySettings")
-
+    updateBiddingStatus(ipoDetails.biddingEndDate);
     const investorTypesContainer = document.getElementById("investorTypesContainer");
     if (ipoDetails.subCategorySettings) {
     investorTypesContainer.innerHTML = `
@@ -964,6 +962,21 @@ if (importantDates.length > 0) {
     document.getElementById("reportTitle").innerText = `${ipoDetails.name} Report`;
 } 
 
+function updateBiddingStatus(biddingEndDate) {
+  const endDate = new Date(biddingEndDate);
+  const now = new Date();
+  const timeDiff = endDate - now;
+
+  if (timeDiff <= 0) {
+    document.getElementById("biddingMessage").innerText = "Bidding has closed.";
+  } else if (timeDiff < 24 * 60 * 60 * 1000) {
+    const hoursLeft = Math.ceil(timeDiff / (1000 * 60 * 60));
+    document.getElementById("biddingMessage").innerText = `Bidding closes in ${hoursLeft} hour${hoursLeft > 1 ? 's' : ''}.`;
+  } else {
+    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    document.getElementById("biddingMessage").innerText = `Bidding closes in ${daysLeft} day${daysLeft > 1 ? 's' : ''}.`;
+  }
+}
 
 
 
