@@ -534,6 +534,7 @@ if (ipoDetails.source === "BSE") {
             investorTypeContainer.innerHTML = ""; // Clear previous buttons
 
             // Filter and display UPI information
+            if (Array.isArray(data.subCategorySettings)) {
             data.subCategorySettings.forEach((setting) => {
               if (setting.allowUpi) {
                 const listItem = document.createElement("li");
@@ -605,7 +606,7 @@ if (ipoDetails.source === "BSE") {
                       firstInvestorTypeButton = investorTypeButton; // Store the first button
                     }
                   }
-                });
+                });}
 
                 // If there is a first investor type button, set it as selected
                 if (firstInvestorTypeButton) {
