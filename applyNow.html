@@ -536,7 +536,7 @@ if (ipoDetails.source === "BSE") {
       investorTypeContainer.innerHTML = ""; // Clear previous buttons
 
       // Check if subCategorySettings is an array
-      if (Array.isArray(data.subCategorySettings)) {
+  if (data.subCategorySettings && Array.isArray(data.subCategorySettings)) {
         data.subCategorySettings.forEach((setting) => {
           if (setting.allowUpi) {
             const listItem = document.createElement("li");
