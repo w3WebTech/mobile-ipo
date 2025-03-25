@@ -365,7 +365,8 @@
     biddingStartDate: params.get("biddingStartDate"), // Ensure this is included
     biddingEndDate: params.get("biddingEndDate"),
     subCategorySettings: JSON.parse(decodeURIComponent(params.get("subCategorySettings")) || "null"), // Handle undefined
-    source: params.get("source") // Get the source parameter
+    source: params.get("source"),
+      
   };
 }
 
@@ -747,6 +748,7 @@ if (ipoDetails.source === "BSE") {
           displayIpoDetails();
         
       });
+       displayIpoDetails();
     </script>
   </body>
 </html>
